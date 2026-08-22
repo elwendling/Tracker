@@ -1,0 +1,268 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<meta name="theme-color" content="#0b1730">
+<title>Tracker</title>
+<style>
+:root{
+  --bg:#08152d; --panel:#101f3b; --panel2:#142746; --line:#2b3c5a;
+  --text:#f5f2ed; --muted:#b8bfd0; --pink:#f28aaa; --pink2:#ff9ab7;
+  --blue:#9fcaf2; --yellow:#f6d77a; --green:#a8dc9b; --orange:#f3ae88; --lav:#c7b7ee;
+  --danger:#f29a9a; --shadow:0 12px 30px rgba(0,0,0,.18); --radius:18px;
+}
+*{box-sizing:border-box} body{margin:0;background:linear-gradient(135deg,#07142b,#0b1934 55%,#08152d);color:var(--text);font-family:Inter,ui-sans-serif,system-ui,-apple-system,BlinkMacSystemFont,"Segoe UI",sans-serif}
+button,input,textarea,select{font:inherit} button{cursor:pointer}
+.app{min-height:100vh;display:flex;flex-direction:column}.topbar{position:sticky;top:0;z-index:10;background:rgba(8,21,45,.92);backdrop-filter:blur(14px);border-bottom:1px solid rgba(255,255,255,.08);padding:14px 18px 10px;display:flex;align-items:center;justify-content:space-between}
+.brand{font-size:24px;font-weight:750;color:var(--pink)} .topdate{font-size:12px;color:var(--muted)}
+main{width:min(100%,820px);margin:0 auto;padding:18px 16px 100px}.screen{display:none}.screen.active{display:block}
+h1,h2,h3,p{margin-top:0}.title{font-size:30px;margin:5px 0 4px}.subtitle{color:var(--muted);margin-bottom:18px}.section-title{display:flex;justify-content:space-between;align-items:center;margin:22px 2px 10px;font-size:15px;letter-spacing:.02em}.section-title small{color:var(--pink)}
+.card{background:linear-gradient(145deg,rgba(20,39,70,.92),rgba(12,28,52,.92));border:1px solid var(--line);border-radius:var(--radius);padding:16px;box-shadow:var(--shadow);margin-bottom:12px}
+.row{display:flex;align-items:center;justify-content:space-between;gap:12px}.muted{color:var(--muted)}.small{font-size:12px}.tiny{font-size:11px}.pink{color:var(--pink)}.green{color:var(--green)}.yellow{color:var(--yellow)}.blue{color:var(--blue)}.orange{color:var(--orange)}
+.btn{border:1px solid var(--line);background:#152744;color:var(--text);padding:9px 13px;border-radius:12px}.btn.primary{background:var(--pink);border-color:var(--pink);color:#271124;font-weight:700}.btn.ghost{background:transparent}.btn.smallbtn{padding:6px 9px;font-size:12px}
+.grid2{display:grid;grid-template-columns:repeat(2,1fr);gap:10px}.grid3{display:grid;grid-template-columns:repeat(3,1fr);gap:8px}
+.progress{height:8px;background:#24334e;border-radius:99px;overflow:hidden}.progress>i{display:block;height:100%;border-radius:99px;background:var(--pink)}.progress.blue>i{background:var(--blue)}.progress.green>i{background:var(--green)}.progress.yellow>i{background:var(--yellow)}
+.metric{padding:13px;border:1px solid var(--line);border-radius:15px;background:rgba(8,21,45,.35)}.metric b{font-size:22px;display:block;margin-top:4px}
+.icon{width:42px;height:42px;border-radius:50%;display:grid;place-items:center;border:1px solid rgba(255,255,255,.14);font-size:20px}.i-pink{background:#ef86a333;color:var(--pink)}.i-blue{background:#9fcaf233;color:var(--blue)}.i-yellow{background:#f6d77a33;color:var(--yellow)}.i-green{background:#a8dc9b33;color:var(--green)}.i-orange{background:#f3ae8833;color:var(--orange)}.i-lav{background:#c7b7ee33;color:var(--lav)}
+.mood-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:10px}.mood{border:1px solid var(--line);background:#0d1d37;border-radius:14px;padding:10px 5px;color:var(--text);text-align:center}.face{width:44px;height:44px;border-radius:50%;margin:0 auto 6px;display:grid;place-items:center;font-size:25px;background:#203353}.mood.active{outline:2px solid var(--pink);background:#172947}.mood span{display:block;font-size:12px;color:var(--muted)}
+input,textarea,select{width:100%;background:#0b1a33;border:1px solid var(--line);color:var(--text);border-radius:11px;padding:11px;outline:none}textarea{min-height:90px;resize:vertical}.field{margin:10px 0}.field label{display:block;font-size:12px;color:var(--muted);margin-bottom:6px}.modal{position:fixed;inset:0;background:rgba(0,0,0,.65);display:none;align-items:flex-end;justify-content:center;z-index:30}.modal.open{display:flex}.sheet{width:min(100%,620px);max-height:90vh;overflow:auto;background:#0d1c35;border:1px solid var(--line);border-radius:24px 24px 0 0;padding:20px}.sheet h3{margin-bottom:15px}.actions{display:flex;gap:8px;justify-content:flex-end;margin-top:15px}
+.list{display:flex;flex-direction:column;gap:8px}.listitem{display:flex;align-items:center;gap:11px;padding:11px 0;border-bottom:1px solid rgba(255,255,255,.08)}.listitem:last-child{border-bottom:0}.grow{flex:1}.check{width:23px;height:23px;border-radius:50%;border:2px solid var(--pink);background:transparent;color:#241321;display:grid;place-items:center}.check.done{background:var(--pink)}.doneText{text-decoration:line-through;color:#777f92}
+.nav{position:fixed;bottom:0;left:0;right:0;z-index:20;background:rgba(7,20,42,.97);border-top:1px solid var(--line);display:flex;justify-content:center}.navinner{width:min(100%,820px);display:grid;grid-template-columns:repeat(7,1fr)}.nav button{border:0;background:transparent;color:#aeb7c9;padding:9px 2px 10px;font-size:10px}.nav button strong{display:block;font-size:18px;font-weight:500;margin-bottom:2px}.nav button.active{color:var(--pink)}
+.timeline{display:flex;flex-direction:column;gap:7px}.time-row{display:grid;grid-template-columns:62px 1fr;min-height:62px}.time{color:var(--muted);font-size:12px;padding-top:10px}.event{background:#152746;border:1px solid var(--line);border-radius:13px;padding:9px 11px}.event.pink{border-left:4px solid var(--pink)}.event.blue{border-left:4px solid var(--blue)}.event.yellow{border-left:4px solid var(--yellow)}.event.green{border-left:4px solid var(--green)}
+.tabs{display:flex;gap:6px;overflow:auto;border-bottom:1px solid var(--line);margin-bottom:13px}.tab{border:0;background:transparent;color:var(--muted);padding:10px 13px;white-space:nowrap}.tab.active{color:var(--pink);border-bottom:2px solid var(--pink)}
+.recipe{display:grid;grid-template-columns:95px 1fr;gap:12px}.recipe img{width:95px;height:95px;object-fit:cover;border-radius:13px}.book-corner{position:fixed;right:15px;bottom:78px;width:62px;height:48px;background:var(--pink);border-radius:30px 0 0 0;display:grid;place-items:center;color:#2a1320;border:1px solid #ffb2c8;z-index:5}.book-corner button{border:0;background:transparent;font-size:24px}
+.chart{height:170px;position:relative;margin-top:10px;border-left:1px solid var(--line);border-bottom:1px solid var(--line);background:repeating-linear-gradient(to top,transparent 0 33px,rgba(255,255,255,.06) 34px 35px)}.dot{position:absolute;width:9px;height:9px;background:var(--pink);border-radius:50%;transform:translate(-50%,50%)}.line{position:absolute;height:2px;background:var(--pink);transform-origin:left center}
+.hidden{display:none!important}.right{margin-left:auto}
+@media(max-width:560px){.grid3{grid-template-columns:1fr}.mood-grid{grid-template-columns:repeat(4,1fr)}.title{font-size:27px}.card{padding:14px}}
+</style>
+</head>
+<body>
+<div class="app">
+<header class="topbar"><div class="brand">Tracker</div><div class="topdate" id="topdate"></div></header>
+<main>
+
+<section class="screen active" id="home">
+  <h1 class="title">Good morning! <span class="pink">♥</span></h1><div class="subtitle" id="homeDate"></div>
+  <div class="card">
+    <div class="section-title" style="margin-top:0"><span class="pink">HOW ARE YOU FEELING?</span><span class="small muted">Tap a mood</span></div>
+    <div class="mood-grid" id="moods"></div>
+    <div class="field"><input id="moodNote" placeholder="Add a note (optional)…"></div>
+    <button class="btn primary" onclick="saveMood()">Log mood</button>
+  </div>
+  <div class="section-title"><span>TODAY'S KEY TO-DOS</span><button class="btn smallbtn" onclick="go('tasks')">Edit</button></div>
+  <div class="card" id="homeTodos"></div>
+  <div class="grid2">
+    <div class="metric"><span class="muted small">TASKS</span><b id="homeTask">0 / 0</b><div class="progress"><i id="homeTaskBar"></i></div></div>
+    <div class="metric"><span class="muted small">NUTRITION</span><b id="homeCal">0</b><div class="progress green"><i id="homeCalBar"></i></div></div>
+    <div class="metric"><span class="muted small">GOALS</span><b id="homeGoals">0</b><div class="progress yellow"><i id="homeGoalBar"></i></div></div>
+    <div class="metric"><span class="muted small">BUDGET</span><b id="homeBudget">$0</b><div class="progress blue"><i id="homeBudgetBar"></i></div></div>
+  </div>
+  <div class="section-title"><span>MOOD TODAY</span><button class="btn smallbtn" onclick="showMoodHistory()">View all</button></div>
+  <div class="card" id="moodToday"></div>
+</section>
+
+<section class="screen" id="schedule">
+  <h1 class="title">Schedule</h1><div class="subtitle" id="scheduleDate"></div>
+  <div class="card"><div class="row"><button class="btn" onclick="shiftDate(-1)">←</button><div style="text-align:center"><b id="scheduleBigDate"></b><div class="small muted">Past days are saved</div></div><button class="btn" onclick="shiftDate(1)">→</button></div></div>
+  <div class="card"><div class="section-title" style="margin-top:0"><span>ARTIST QUOTE</span></div><div id="quote" class="muted"></div></div>
+  <div class="timeline" id="timeline"></div>
+  <button class="btn primary" style="position:fixed;right:20px;bottom:80px;border-radius:50%;width:54px;height:54px;font-size:26px" onclick="openScheduleModal()">+</button>
+</section>
+
+<section class="screen" id="tasks">
+  <h1 class="title">Daily Tasks</h1><div class="subtitle">Your everyday essentials + one-time priorities</div>
+  <div class="card"><div class="row"><span>Overall Progress</span><b id="taskProgressText">0 / 0</b></div><div class="progress" style="margin-top:10px"><i id="taskProgress"></i></div></div>
+  <div class="section-title"><span>DAILY TASKS</span></div><div class="card"><div id="dailyTaskList" class="list"></div></div>
+  <div class="section-title"><span>ONE-TIME TASKS</span><button class="btn primary smallbtn" onclick="openTaskModal()">+ Add</button></div>
+  <div class="card" id="priorityLists"></div>
+  <div class="section-title"><span>HISTORY</span></div><div class="card"><div id="taskHistory"></div></div>
+</section>
+
+<section class="screen" id="budget">
+  <h1 class="title">Budget</h1><div class="subtitle" id="budgetWeek"></div>
+  <div class="card"><div class="grid2"><div><span class="muted small">PAYCHECK</span><b style="font-size:26px;display:block" id="paycheck">$0</b></div><div><span class="muted small">PLANNED</span><b style="font-size:26px;display:block" id="planned">$0</b></div></div><div class="progress blue" style="margin-top:14px"><i id="budgetBar"></i></div></div>
+  <div class="card" id="budgetCats"></div>
+  <div class="actions"><button class="btn" onclick="openBudgetModal()">Edit week</button></div>
+  <div class="section-title"><span>PAST WEEKS</span></div><div class="card" id="budgetHistory"></div>
+</section>
+
+<section class="screen" id="journal">
+  <h1 class="title">Journal</h1><div class="subtitle" id="journalDate"></div>
+  <div class="card"><div class="row"><button class="btn" onclick="journalShift(-1)">←</button><b id="journalDay"></b><button class="btn" onclick="journalShift(1)">→</button></div></div>
+  <div class="card"><div class="section-title" style="margin-top:0"><span class="pink">MORNING</span></div><p class="muted">What are you excited about for today?</p><textarea id="morningText" oninput="saveJournal()"></textarea></div>
+  <div class="card"><div class="section-title" style="margin-top:0"><span class="yellow">NIGHT</span></div><p class="muted">What was your favorite part of the day?</p><textarea id="nightText" oninput="saveJournal()"></textarea></div>
+  <div class="card"><div class="section-title" style="margin-top:0"><span>MOODS FROM THIS DAY</span></div><div id="journalMoods" class="list"></div></div>
+  <div class="card"><div class="section-title" style="margin-top:0"><span>GENERAL JOURNAL</span></div><textarea id="generalText" class="lined" oninput="saveJournal()" style="min-height:230px;line-height:2.1;background:repeating-linear-gradient(to bottom,#0b1a33 0 31px,#2b3c5a 32px 33px)"></textarea></div>
+</section>
+
+<section class="screen" id="goals">
+  <h1 class="title">Goals</h1><div class="subtitle">Keep progress across every time period</div>
+  <div class="tabs" id="goalTabs"></div><div id="goalList"></div>
+  <button class="btn primary" style="position:fixed;right:20px;bottom:80px;border-radius:50%;width:54px;height:54px;font-size:26px" onclick="openGoalModal()">+</button>
+</section>
+
+<section class="screen" id="nutrition">
+  <h1 class="title">Nutrition</h1><div class="subtitle" id="nutritionDate"></div>
+  <div class="card"><div class="grid3"><div><span class="muted small">CALORIES</span><b id="calTotal">0 / 2000</b></div><div><span class="muted small">PROTEIN</span><b id="proteinTotal">0g / 150g</b></div><div><span class="muted small">CARBS</span><b id="carbTotal">0g / 250g</b></div></div><div class="progress" style="margin-top:12px"><i id="calBar"></i></div></div>
+  <div id="mealSections"></div>
+  <div class="book-corner"><button onclick="openCookbook()">▢</button></div>
+</section>
+
+<section class="screen" id="cookbook">
+  <div class="row"><div><h1 class="title">Cookbook</h1><div class="subtitle">Your modern recipe collection</div></div><button class="btn" onclick="go('nutrition')">×</button></div>
+  <div class="tabs"><button class="tab active">CONTENTS</button><button class="tab" onclick="filterRecipes('all')">MY RECIPES</button></div>
+  <div id="cookbookContents"></div>
+  <div class="section-title"><span>RECIPES</span><button class="btn primary smallbtn" onclick="openRecipeModal()">+ Add recipe</button></div>
+  <div id="recipeList"></div>
+</section>
+
+</main>
+<nav class="nav"><div class="navinner">
+  <button class="active" onclick="go('home')"><strong>⌂</strong>Home</button>
+  <button onclick="go('schedule')"><strong>□</strong>Schedule</button>
+  <button onclick="go('tasks')"><strong>✓</strong>Tasks</button>
+  <button onclick="go('budget')"><strong>$</strong>Budget</button>
+  <button onclick="go('journal')"><strong>▤</strong>Journal</button>
+  <button onclick="go('goals')"><strong>◎</strong>Goals</button>
+  <button onclick="go('nutrition')"><strong>♡</strong>Nutrition</button>
+</div></nav>
+</div>
+
+<div class="modal" id="modal"><div class="sheet" id="sheet"></div></div>
+
+<script>
+const KEY='tracker_v1';
+const moods=[
+  ['happy','Happy','☺','pink'],['calm','Calm','◡','lav'],['excited','Excited','✦','yellow'],['okay','Okay','—','orange'],
+  ['tired','Tired','z','blue'],['stressed','Stressed','×','orange'],['sad','Sad','⌣','blue']
+];
+const mealNames=['Breakfast','Lunch','Dinner','Snack','Sweet Treat'];
+const quotes=[
+  '“Art enables us to find ourselves and lose ourselves at the same time.” — Thomas Merton',
+  '“The purpose of art is washing the dust of daily life off our souls.” — Pablo Picasso',
+  '“Every artist was first an amateur.” — Ralph Waldo Emerson',
+  '“Art is not what you see, but what you make others see.” — Edgar Degas'
+];
+let data=JSON.parse(localStorage.getItem(KEY)||'null')||{
+  moods:[], journal:{}, tasks:[
+    {id:1,name:'Make bed',priority:'daily',done:false},{id:2,name:'Drink water',priority:'daily',done:false},
+    {id:3,name:'Read 10 pages',priority:'daily',done:false},{id:4,name:'Finish assignment',priority:'high',done:false},
+    {id:5,name:'Laundry',priority:'medium',done:false}
+  ], schedule:{}, budgets:{}, goals:[], foods:{}, recipes:[
+    {id:1,name:'Greek Yogurt Bowl',cat:'Breakfast',servings:1,time:'5 min',cal:420,protein:20,carbs:55,fat:12,ingredients:'1 cup Greek yogurt\\n1/2 cup blueberries\\n1/2 cup strawberries\\n1 tbsp honey\\n1/4 cup granola',directions:'Layer yogurt, fruit, honey and granola. Serve cold.'}
+  ]
+};
+function save(){localStorage.setItem(KEY,JSON.stringify(data));}
+function todayKey(d=new Date()){return d.toISOString().slice(0,10)}
+let activeDate=todayKey(), goalPeriod='Monthly', journalDateKey=todayKey();
+function fmt(d){return new Date(d+'T12:00:00').toLocaleDateString(undefined,{weekday:'long',month:'long',day:'numeric',year:'numeric'})}
+document.getElementById('topdate').textContent=fmt(todayKey());
+
+function go(id){
+  document.querySelectorAll('.screen').forEach(s=>s.classList.remove('active'));
+  document.getElementById(id).classList.add('active');
+  document.querySelectorAll('.nav button').forEach((b,i)=>b.classList.toggle('active',['home','schedule','tasks','budget','journal','goals','nutrition'].indexOf(id)===i));
+  if(id==='home')renderHome(); if(id==='schedule')renderSchedule(); if(id==='tasks')renderTasks(); if(id==='budget')renderBudget(); if(id==='journal')renderJournal(); if(id==='goals')renderGoals(); if(id==='nutrition')renderNutrition(); if(id==='cookbook')renderCookbook();
+}
+function openCookbook(){go('cookbook')}
+function openModal(content){document.getElementById('sheet').innerHTML=content;document.getElementById('modal').classList.add('open')}
+function closeModal(){document.getElementById('modal').classList.remove('open')}
+document.getElementById('modal').addEventListener('click',e=>{if(e.target.id==='modal')closeModal()});
+
+function renderMoods(){
+  document.getElementById('moods').innerHTML=moods.map(m=>`<button class="mood" data-mood="${m[0]}" onclick="selectMood('${m[0]}')"><div class="face i-${m[3]}">${m[2]}</div><span>${m[1]}</span></button>`).join('');
+}
+let selectedMood='';
+function selectMood(m){selectedMood=m;document.querySelectorAll('.mood').forEach(x=>x.classList.toggle('active',x.dataset.mood===m))}
+function saveMood(){
+  if(!selectedMood){alert('Pick a mood first.');return}
+  const mood=moods.find(m=>m[0]===selectedMood);
+  data.moods.push({id:Date.now(),date:todayKey(),time:new Date().toLocaleTimeString([], {hour:'numeric',minute:'2-digit'}),mood:mood[1],icon:mood[2],note:document.getElementById('moodNote').value});
+  document.getElementById('moodNote').value=''; selectedMood=''; save(); renderHome();
+}
+function renderHome(){
+  document.getElementById('homeDate').textContent=fmt(todayKey());
+  renderMoods();
+  const tasks=data.tasks, done=tasks.filter(t=>t.done).length;
+  document.getElementById('homeTask').textContent=`${done} / ${tasks.length}`;
+  document.getElementById('homeTaskBar').style.width=(tasks.length?done/tasks.length*100:0)+'%';
+  const foods=data.foods[todayKey()]||[]; const cal=foods.reduce((s,f)=>s+(+f.cal||0),0);
+  document.getElementById('homeCal').textContent=cal.toLocaleString();document.getElementById('homeCalBar').style.width=Math.min(100,cal/2000*100)+'%';
+  const activeGoals=data.goals.filter(g=>g.period===goalPeriod);document.getElementById('homeGoals').textContent=activeGoals.length+' active';
+  document.getElementById('homeGoalBar').style.width=(activeGoals.length?Math.min(100,activeGoals.filter(g=>g.progress>=g.target).length/activeGoals.length*100):0)+'%';
+  const b=data.budgets[weekKey(todayKey())]||{}; const p=+b.paycheck||0, planned=Object.values(b.cats||{}).reduce((s,v)=>s+(+v||0),0);
+  document.getElementById('homeBudget').textContent='$'+Math.max(0,p-planned).toLocaleString();
+  document.getElementById('homeBudgetBar').style.width=(p?Math.min(100,planned/p*100):0)+'%';
+  document.getElementById('homeTodos').innerHTML=tasks.slice(0,4).map(t=>`<div class="listitem"><div class="grow"><b class="${t.done?'doneText':''}">${t.name}</b><div class="small muted">${t.priority==='daily'?'Daily':t.priority[0].toUpperCase()+t.priority.slice(1)+' priority'}</div></div><div class="check ${t.done?'done':''}">${t.done?'✓':''}</div></div>`).join('')||'<span class="muted">Nothing scheduled yet.</span>';
+  const ms=data.moods.filter(m=>m.date===todayKey()).slice(-6).reverse();
+  document.getElementById('moodToday').innerHTML=ms.length?ms.map(m=>`<div class="listitem"><div class="icon i-pink">${m.icon}</div><div class="grow"><b>${m.mood}</b><div class="small muted">${m.time}${m.note?' · '+m.note:''}</div></div></div>`).join(''):'<span class="muted">No moods logged today yet.</span>';
+}
+function showMoodHistory(){
+  const all=data.moods.slice().reverse();
+  openModal(`<h3>Mood History</h3><p class="muted">Every mood entry is saved with its exact time.</p>${all.map(m=>`<div class="listitem"><div class="icon i-pink">${m.icon}</div><div class="grow"><b>${m.mood}</b><div class="small muted">${fmt(m.date)} · ${m.time}</div>${m.note?`<div class="small">${m.note}</div>`:''}</div></div>`).join('')||'<p class="muted">No entries yet.</p>'}<div class="actions"><button class="btn" onclick="closeModal()">Close</button></div>`);
+}
+
+function shiftDate(n){let d=new Date(activeDate+'T12:00:00');d.setDate(d.getDate()+n);activeDate=todayKey(d);renderSchedule()}
+function renderSchedule(){
+  document.getElementById('scheduleDate').textContent=activeDate===todayKey()?'Today':'Saved day';
+  document.getElementById('scheduleBigDate').textContent=fmt(activeDate);
+  document.getElementById('quote').textContent=quotes[new Date(activeDate+'T12:00:00').getDate()%quotes.length];
+  const events=data.schedule[activeDate]||[];
+  document.getElementById('timeline').innerHTML=Array.from({length:17},(_,i)=>i+6).map(h=>{
+    const label=h<12?`${h} AM`:h===12?'12 PM':`${h-12} PM`; const ev=events.find(e=>e.hour===h);
+    return `<div class="time-row"><div class="time">${label}</div><div>${ev?`<div class="event ${ev.color||'pink'}"><b>${ev.name}</b><div class="small muted">${ev.start||label}</div></div>`:'<div style="height:62px;border-bottom:1px dashed rgba(255,255,255,.06)"></div>'}</div></div>`
+  }).join('');
+}
+function openScheduleModal(){openModal(`<h3>Add to ${fmt(activeDate)}</h3><div class="field"><label>What?</label><input id="evName"></div><div class="field"><label>Hour</label><select id="evHour">${Array.from({length:17},(_,i)=>i+6).map(h=>`<option value="${h}">${h<12?h+' AM':h===12?'12 PM':h-12+' PM'}</option>`).join('')}</select></div><div class="field"><label>Accent</label><select id="evColor"><option value="pink">Pink</option><option value="blue">Blue</option><option value="yellow">Yellow</option><option value="green">Green</option></select></div><div class="actions"><button class="btn" onclick="closeModal()">Cancel</button><button class="btn primary" onclick="addEvent()">Add</button></div>`)}
+function addEvent(){const d=activeDate;data.schedule[d]=data.schedule[d]||[];data.schedule[d].push({name:document.getElementById('evName').value||'Untitled',hour:+document.getElementById('evHour').value,color:document.getElementById('evColor').value});save();closeModal();renderSchedule()}
+
+function toggleTask(id){const t=data.tasks.find(x=>x.id===id);t.done=!t.done;save();renderTasks();renderHome()}
+function renderTasks(){
+  const done=data.tasks.filter(t=>t.done).length,total=data.tasks.length;
+  document.getElementById('taskProgressText').textContent=`${done} / ${total} completed`;document.getElementById('taskProgress').style.width=(total?done/total*100:0)+'%';
+  const daily=data.tasks.filter(t=>t.priority==='daily');
+  document.getElementById('dailyTaskList').innerHTML=daily.map(t=>taskHTML(t)).join('')||'<span class="muted">Add your everyday tasks.</span>';
+  document.getElementById('priorityLists').innerHTML=['high','medium','low'].map(p=>`<div class="section-title" style="margin:6px 0"><span class="${p==='high'?'pink':p==='medium'?'yellow':'green'}">${p[0].toUpperCase()+p.slice(1)} Priority</span></div>${data.tasks.filter(t=>t.priority===p).map(taskHTML).join('')||'<div class="small muted">No tasks.</div>'}`).join('');
+  document.getElementById('taskHistory').innerHTML=`<div class="small muted">Today: ${done}/${total} complete. Previous completion snapshots can be expanded here as the app grows.</div>`;
+}
+function taskHTML(t){return `<div class="listitem"><div class="grow"><b class="${t.done?'doneText':''}">${t.name}</b><div class="small muted">${t.priority==='daily'?'Every day':t.priority}</div></div><button class="check ${t.done?'done':''}" onclick="toggleTask(${t.id})">${t.done?'✓':''}</button></div>`}
+function openTaskModal(){openModal(`<h3>New Task</h3><div class="field"><label>What do you need to do?</label><input id="taskName"></div><div class="field"><label>Priority</label><select id="taskPriority"><option value="high">High</option><option value="medium">Medium</option><option value="low">Low</option><option value="daily">Daily Task</option></select></div><div class="actions"><button class="btn" onclick="closeModal()">Cancel</button><button class="btn primary" onclick="addTask()">Add Task</button></div>`)}
+function addTask(){data.tasks.push({id:Date.now(),name:document.getElementById('taskName').value||'New task',priority:document.getElementById('taskPriority').value,done:false});save();closeModal();renderTasks();renderHome()}
+
+function weekKey(d){let x=new Date(d+'T12:00:00');let day=x.getDay();x.setDate(x.getDate()-((day+6)%7));return todayKey(x)}
+function renderBudget(){
+  const wk=weekKey(todayKey()), b=data.budgets[wk]||{paycheck:0,cats:{House/Rent:0,Gas:0,'Eating Out':0,Fun:0,Savings:0}};
+  document.getElementById('budgetWeek').textContent=`Week of ${fmt(wk)}`;
+  document.getElementById('paycheck').textContent='$'+(+b.paycheck||0).toLocaleString();
+  const planned=Object.values(b.cats||{}).reduce((s,v)=>s+(+v||0),0);document.getElementById('planned').textContent='$'+planned.toLocaleString();document.getElementById('budgetBar').style.width=(b.paycheck?Math.min(100,planned/b.paycheck*100):0)+'%';
+  document.getElementById('budgetCats').innerHTML=Object.entries(b.cats||{}).map(([k,v])=>`<div class="listitem"><div class="grow"><b>${k}</b></div><b>$${(+v||0).toLocaleString()}</b></div>`).join('');
+  document.getElementById('budgetHistory').innerHTML=Object.entries(data.budgets).sort((a,b)=>b[0].localeCompare(a[0])).map(([k,v])=>`<div class="listitem"><div class="grow"><b>Week of ${k}</b><div class="small muted">$${+v.paycheck||0} paycheck</div></div><b>$${Object.values(v.cats||{}).reduce((s,x)=>s+(+x||0),0)}</b></div>`).join('')||'<span class="muted">No previous weeks yet.</span>';
+}
+function openBudgetModal(){const b=data.budgets[weekKey(todayKey())]||{paycheck:0,cats:{}};const cats=['House/Rent','Gas','Eating Out','Fun','Savings'];openModal(`<h3>Budget — Week of ${weekKey(todayKey())}</h3><div class="field"><label>Paycheck / income</label><input type="number" id="pay" value="${b.paycheck||0}"></div>${cats.map(c=>`<div class="field"><label>${c}</label><input type="number" id="b_${c.replace(/\\W/g,'')}" value="${(b.cats||{})[c]||0}"></div>`).join('')}<div class="actions"><button class="btn" onclick="closeModal()">Cancel</button><button class="btn primary" onclick="saveBudget()">Save</button></div>`)}
+function saveBudget(){const cats=['House/Rent','Gas','Eating Out','Fun','Savings'];let obj={paycheck:+document.getElementById('pay').value||0,cats:{}};cats.forEach(c=>obj.cats[c]=+document.getElementById('b_'+c.replace(/\\W/g,'')).value||0);data.budgets[weekKey(todayKey())]=obj;save();closeModal();renderBudget();renderHome()}
+
+function journalShift(n){let d=new Date(journalDateKey+'T12:00:00');d.setDate(d.getDate()+n);journalDateKey=todayKey(d);renderJournal()}
+function renderJournal(){document.getElementById('journalDate').textContent='Morning, night, general thoughts + synced moods';document.getElementById('journalDay').textContent=fmt(journalDateKey);const j=data.journal[journalDateKey]||{};document.getElementById('morningText').value=j.morning||'';document.getElementById('nightText').value=j.night||'';document.getElementById('generalText').value=j.general||'';document.getElementById('journalMoods').innerHTML=(data.moods.filter(m=>m.date===journalDateKey).map(m=>`<div class="listitem"><div class="icon i-pink">${m.icon}</div><div class="grow"><b>${m.mood}</b><div class="small muted">${m.time}${m.note?' · '+m.note:''}</div></div></div>`).join('')||'<span class="muted">No mood entries for this day.</span>'}
+function saveJournal(){data.journal[journalDateKey]={morning:document.getElementById('morningText').value,night:document.getElementById('nightText').value,general:document.getElementById('generalText').value};save()}
+
+function renderGoals(){document.getElementById('goalTabs').innerHTML=['Daily','Weekly','Monthly','Yearly'].map(p=>`<button class="tab ${p===goalPeriod?'active':''}" onclick="goalPeriod='${p}';renderGoals()">${p}</button>`).join('');const gs=data.goals.filter(g=>g.period===goalPeriod);document.getElementById('goalList').innerHTML=gs.map(g=>{let pct=Math.min(100,g.target?(g.progress/g.target*100):0);return `<div class="card"><div class="row"><div class="icon i-${g.color||'pink'}">${g.icon||'◎'}</div><div class="grow"><b>${g.name}</b><div class="small muted">${g.progress} / ${g.target} ${g.unit||''}</div></div><b>${Math.round(pct)}%</b></div><div class="progress" style="margin-top:12px"><i style="width:${pct}%"></i></div><div class="actions"><button class="btn smallbtn" onclick="updateGoal(${g.id})">+ Update Progress</button></div></div>`}).join('')||`<div class="card"><span class="muted">No ${goalPeriod.toLowerCase()} goals yet. Tap + to add one.</span></div>`}
+function openGoalModal(){openModal(`<h3>New Goal</h3><div class="field"><label>Goal</label><input id="gName"></div><div class="field"><label>Timeframe</label><select id="gPeriod">${['Daily','Weekly','Monthly','Yearly'].map(x=>`<option>${x}</option>`).join('')}</select></div><div class="grid2"><div class="field"><label>Target</label><input type="number" id="gTarget" value="1"></div><div class="field"><label>Unit</label><input id="gUnit" placeholder="times, $, pages…"></div></div><div class="actions"><button class="btn" onclick="closeModal()">Cancel</button><button class="btn primary" onclick="addGoal()">Create Goal</button></div>`)}
+function addGoal(){data.goals.push({id:Date.now(),name:document.getElementById('gName').value||'New goal',period:document.getElementById('gPeriod').value,target:+document.getElementById('gTarget').value||1,progress:0,unit:document.getElementById('gUnit').value||'',history:[],color:['pink','blue','green','yellow'][data.goals.length%4],icon:['◎','□','$','◌'][data.goals.length%4]});save();closeModal();renderGoals();renderHome()}
+function updateGoal(id){const g=data.goals.find(x=>x.id===id);openModal(`<h3>Update "${g.name}"</h3><div class="field"><label>New progress</label><input type="number" id="gp" value="${g.progress}"></div><div class="field"><label>What did you accomplish?</label><textarea id="gn"></textarea></div><div class="actions"><button class="btn" onclick="closeModal()">Cancel</button><button class="btn primary" onclick="saveGoalUpdate(${id})">Save update</button></div>`)}
+function saveGoalUpdate(id){const g=data.goals.find(x=>x.id===id);g.progress=+document.getElementById('gp').value||0;g.history.push({date:todayKey(),progress:g.progress,note:document.getElementById('gn').value});save();closeModal();renderGoals();renderHome()}
+
+function renderNutrition(){document.getElementById('nutritionDate').textContent=fmt(todayKey());const foods=data.foods[todayKey()]||[];const cal=foods.reduce((s,f)=>s+(+f.cal||0),0),p=foods.reduce((s,f)=>s+(+f.protein||0),0),c=foods.reduce((s,f)=>s+(+f.carbs||0),0);document.getElementById('calTotal').textContent=`${cal} / 2000`;document.getElementById('proteinTotal').textContent=`${p}g / 150g`;document.getElementById('carbTotal').textContent=`${c}g / 250g`;document.getElementById('calBar').style.width=Math.min(100,cal/2000*100)+'%';document.getElementById('mealSections').innerHTML=mealNames.map(m=>{const fs=foods.filter(f=>f.meal===m),tot=fs.reduce((s,f)=>s+(+f.cal||0),0);return `<div class="card"><div class="row"><div><b>${m}</b><div class="small muted">${tot} calories</div></div><button class="btn smallbtn" onclick="openFoodModal('${m}')">+ Add Food</button></div>${fs.map(f=>`<div class="listitem"><div class="grow"><b>${f.name}</b><div class="small muted">${f.cal} cal · ${f.protein||0}g protein · ${f.carbs||0}g carbs</div></div><button class="btn smallbtn" onclick="removeFood(${f.id})">×</button></div>`).join('')}</div>`}).join('')}
+function openFoodModal(meal){openModal(`<h3>Add food to ${meal}</h3><div class="field"><label>Food</label><input id="fName" placeholder="e.g. oatmeal"></div><div class="grid3"><div class="field"><label>Calories</label><input type="number" id="fCal"></div><div class="field"><label>Protein g</label><input type="number" id="fP"></div><div class="field"><label>Carbs g</label><input type="number" id="fC"></div></div><div class="actions"><button class="btn" onclick="closeModal()">Cancel</button><button class="btn primary" onclick="addFood('${meal}')">Add</button></div>`)}
+function addFood(meal){const a=data.foods[todayKey()]||[];a.push({id:Date.now(),meal,name:document.getElementById('fName').value||'Food',cal:+document.getElementById('fCal').value||0,protein:+document.getElementById('fP').value||0,carbs:+document.getElementById('fC').value||0});data.foods[todayKey()]=a;save();closeModal();renderNutrition();renderHome()}
+function removeFood(id){data.foods[todayKey()]=(data.foods[todayKey()]||[]).filter(f=>f.id!==id);save();renderNutrition();renderHome()}
+
+function renderCookbook(){const cats=mealNames;document.getElementById('cookbookContents').innerHTML=cats.map((c,i)=>`<button class="card" style="width:100%;text-align:left;color:var(--text)" onclick="filterRecipes('${c}')"><div class="row"><div class="row"><div class="icon i-${['yellow','blue','orange','lav','pink'][i]}">${['☼','□','≡','♢','▱'][i]}</div><div><b>${c}</b><div class="small muted">${data.recipes.filter(r=>r.cat===c).length} recipes</div></div></div><span class="pink">›</span></div></button>`).join('');filterRecipes('all')}
+function filterRecipes(cat){let rs=cat==='all'?data.recipes:data.recipes.filter(r=>r.cat===cat);document.getElementById('recipeList').innerHTML=rs.map(r=>`<div class="card recipe"><div style="background:linear-gradient(135deg,#f0a0b8,#8fb7dd);border-radius:13px;display:grid;place-items:center;color:#fff;font-size:12px">Recipe</div><div><div class="row"><b>${r.name}</b><span class="pink">♡</span></div><div class="small muted">${r.cat} · ${r.servings} serving${r.servings==1?'':'s'} · ${r.time}</div><div class="small" style="margin-top:8px">${r.cal} cal · ${r.protein||0}g protein · ${r.carbs||0}g carbs</div><details style="margin-top:8px"><summary class="pink">Ingredients & directions</summary><p class="small" style="white-space:pre-line">${r.ingredients}</p><p class="small" style="white-space:pre-line">${r.directions}</p></details><button class="btn primary smallbtn" style="margin-top:8px" onclick="addRecipeToToday(${r.id})">+ Add to Today</button></div></div>`).join('')||'<div class="card muted">No recipes in this section yet.</div>'}
+function openRecipeModal(){openModal(`<h3>Add Recipe</h3><div class="field"><label>Recipe name</label><input id="rName"></div><div class="field"><label>Category</label><select id="rCat">${mealNames.map(x=>`<option>${x}</option>`).join('')}</select></div><div class="grid2"><div class="field"><label>Servings</label><input type="number" id="rServ" value="1"></div><div class="field"><label>Time</label><input id="rTime" placeholder="20 min"></div></div><div class="grid3"><div class="field"><label>Calories</label><input type="number" id="rCal"></div><div class="field"><label>Protein g</label><input type="number" id="rP"></div><div class="field"><label>Carbs g</label><input type="number" id="rC"></div></div><div class="field"><label>Ingredients</label><textarea id="rIng"></textarea></div><div class="field"><label>Directions</label><textarea id="rDir"></textarea></div><div class="actions"><button class="btn" onclick="closeModal()">Cancel</button><button class="btn primary" onclick="addRecipe()">Save recipe</button></div>`)}
+function addRecipe(){data.recipes.push({id:Date.now(),name:document.getElementById('rName').value||'New Recipe',cat:document.getElementById('rCat').value,servings:+document.getElementById('rServ').value||1,time:document.getElementById('rTime').value||'',cal:+document.getElementById('rCal').value||0,protein:+document.getElementById('rP').value||0,carbs:+document.getElementById('rC').value||0,fat:0,ingredients:document.getElementById('rIng').value,directions:document.getElementById('rDir').value});save();closeModal();renderCookbook()}
+function addRecipeToToday(id){const r=data.recipes.find(x=>x.id===id);const a=data.foods[todayKey()]||[];a.push({id:Date.now(),meal:r.cat,name:r.name,cal:r.cal,protein:r.protein||0,carbs:r.carbs||0});data.foods[todayKey()]=a;save();alert('Added to today’s meals.');}
+renderHome();
+</script>
+</body>
+</html>
