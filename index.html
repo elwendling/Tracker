@@ -107,13 +107,118 @@ label{display:block;margin:8px 0 4px;color:#e5e4e8}
  .mood-grid{grid-template-columns:repeat(4,1fr)}
  h1{font-size:32px}
 }
+
+/* HOME PAGE — reference-mockup styling */
+#home{padding:2px 0 22px}
+.home-head{display:flex;justify-content:space-between;align-items:flex-start;padding:6px 8px 10px}
+.home-head h1{font-size:31px;margin:0;color:#f0a0bd;font-weight:400}
+.home-head .heart{font-size:27px}
+.home-date{font-size:17px;color:#f0eef1;margin-top:5px}
+.bell{background:none;border:0;color:#f0a0bd;font-size:29px;font-family:inherit;padding:2px 7px}
+.home-mood.card{padding:16px 14px 15px;margin-top:3px}
+.mood-title{color:#f09dbb;font-size:17px;font-weight:bold;letter-spacing:.3px}
+.mood-sub{font-size:15px;color:#c8c9d0;margin:7px 0 13px}
+.home-mood-grid{display:grid;grid-template-columns:repeat(4,1fr);row-gap:14px;column-gap:3px}
+.home-mood-btn{background:none;border:0;color:#eee;font-family:inherit;font-size:14px;padding:0 0 2px}
+.home-mood-btn b{font-weight:400;display:block;margin-top:2px}
+.face{width:48px;height:48px;border-radius:50%;display:flex;align-items:center;justify-content:center;margin:auto;font-size:30px;color:#252236;font-weight:bold;border:1px solid rgba(255,255,255,.06)}
+.face-pink{background:#ed8fb0}.face-lav{background:#bca2df}.face-yellow{background:#f4c557}.face-peach{background:#f0d0a8}
+.face-blue{background:#93bce8}.face-salmon{background:#f0a08d}.face-sky{background:#a9c7ec}
+.mood-note{height:48px;border:1px solid #344360;border-radius:12px;background:#111d39;display:flex;align-items:center;gap:8px;padding:0 11px;margin-top:12px}
+.mood-note span{color:#9ba6ba;font-size:17px}
+.mood-note input{border:0;background:transparent;padding:7px 0;height:42px}
+.home-section-head{display:flex;align-items:center;justify-content:space-between;padding:8px 12px 5px}
+.home-section-head h2{font-size:17px;margin:0;color:#f4f1f2;font-weight:400}
+.home-section-head button{border:0;background:none;color:#f09dbb;font:16px "Times New Roman",serif}
+.home-todos{padding:5px 12px;margin:0 0 8px}
+.home-todo{height:39px;display:flex;align-items:center;gap:10px;border-bottom:1px solid #303c57}
+.home-todo:last-child{border-bottom:0}
+.todo-time{width:70px;color:#e9e7ea}
+.todo-icon{width:23px;height:23px;border:2px solid #92a0b5;border-radius:6px;display:flex;align-items:center;justify-content:center;font-size:12px;color:#92a0b5}
+.todo-dot{width:23px;height:23px;border-radius:50%;display:inline-block}
+.todo-name{flex:1;color:#f0eef0}
+.todo-circle{width:22px;height:22px;border:2px solid #9aa5b8;border-radius:50%}
+.home-dashboard{display:grid;grid-template-columns:1fr 1fr;gap:9px;padding:2px 0 8px}
+.dash-card{border:1px solid #33415f;border-radius:15px;background:#111d39;text-align:left;padding:12px 13px;color:#fff;font-family:inherit;min-height:116px}
+.dash-top{display:flex;align-items:center;gap:7px;font-size:14px;margin-bottom:7px}
+.dash-icon{width:26px;height:26px;border-radius:6px;background:#ef8faf;color:#281b2a;display:inline-flex;align-items:center;justify-content:center;font-size:18px}
+.apple{background:#a7d68d}.dash-yellow .dash-icon{background:#f0c65d}.dash-blue .dash-icon{background:#8fb8e5}
+.dash-card strong{font-size:28px;font-weight:400;display:inline-block}
+.dash-card small{display:block;font-size:14px;color:#f0eef1;margin-top:-1px}
+.dash-progress{height:7px;background:#303a53;border-radius:10px;margin-top:9px;overflow:hidden}
+.dash-progress i{display:block;height:100%;border-radius:10px;background:#ef8faf;width:70%}
+.dash-green .dash-progress i{background:#a7d68d}.dash-yellow .dash-progress i{background:#f0c65d}.dash-blue .dash-progress i{background:#8fb8e5}
+.mood-history-head{margin-top:2px}
+.home-mood-history{padding:13px 7px;margin:0;display:grid;grid-template-columns:repeat(4,1fr);overflow:hidden}
+.home-history-item{text-align:center;border-right:1px solid #34415c;min-width:0}
+.home-history-item:last-child{border-right:0}
+.history-time{font-size:13px;color:#e8e5e8;margin-bottom:6px}
+.history-face{width:45px;height:45px;border-radius:50%;margin:auto;display:flex;align-items:center;justify-content:center;font-size:24px;color:#252236}
+.history-name{font-size:13px;margin-top:5px}
+.home-fab{display:block;width:60px;height:60px;border-radius:50%;border:0;background:#ee8faf;color:#fff;font:38px "Times New Roman",serif;margin:14px auto 3px;box-shadow:0 7px 20px rgba(0,0,0,.28)}
+@media(max-width:430px){
+ .home-head h1{font-size:29px}
+ .home-mood-grid{row-gap:12px}
+ .face{width:46px;height:46px}
+ .home-todo{height:37px}
+ .home-mood-history{padding-left:3px;padding-right:3px}
+}
 </style></head><body><div class="app"><h1>Tracker</h1><div id="date"></div>
 
-<section id="home" class="page active"><div class="hero"><h2>Good morning, Ella! ♥</h2><p><i>“Creativity takes courage.” — Henri Matisse</i></p><div class="grid"><div class="stat"><b id="ht">5/7</b>tasks complete</div><div class="stat"><b id="hc">1420</b>calories</div><div class="stat"><b id="hg">4</b>goals</div><div class="stat"><b id="hm">Happy</b>latest mood</div></div></div>
-<div class="card"><div class="row"><h2>HOW ARE YOU FEELING?</h2><span class="muted">Tap a mood</span></div><div class="grid"><button class="btn btn2" onclick="mood('Happy')">☺ Happy</button><button class="btn btn2" onclick="mood('Calm')">☻ Calm</button><button class="btn btn2" onclick="mood('Excited')">😄 Excited</button><button class="btn btn2" onclick="mood('Okay')">• Okay</button><button class="btn btn2" onclick="mood('Tired')">– Tired</button><button class="btn btn2" onclick="mood('Stressed')">☹ Stressed</button></div><label>Optional note</label><input id="mn" placeholder="Add a note..."></div>
-<div class="card"><h2>Today's Key To-Dos</h2><div id="htasks"></div></div><div class="card"><h2>Mood Today</h2><div id="hmoods"></div></div></section>
+<section id="home" class="page active">
+  <div class="home-head">
+    <div>
+      <h1>Good morning, Ella! <span class="heart">♥</span></h1>
+      <div class="home-date" id="homeDate"></div>
+    </div>
+    <button class="bell" onclick="alert('No new notifications')">♧</button>
+  </div>
 
-<section id="schedule" class="page"><h1>Schedule</h1><div class="days" id="days"></div><div class="card"><div class="row"><h2 id="sd"></h2><button class="btn" onclick="addSchedule()">+ Add</button></div><div id="timeline"></div></div></section>
+  <div class="home-mood card">
+    <div class="section-title mood-title">HOW ARE YOU FEELING?</div>
+    <div class="mood-sub">Tap a mood to log how you feel</div>
+    <div class="home-mood-grid">
+      <button class="home-mood-btn" onclick="mood('Happy')"><span class="face face-pink">⌣</span><b>Happy</b></button>
+      <button class="home-mood-btn" onclick="mood('Calm')"><span class="face face-lav">⌢</span><b>Calm</b></button>
+      <button class="home-mood-btn" onclick="mood('Excited')"><span class="face face-yellow">≧</span><b>Excited</b></button>
+      <button class="home-mood-btn" onclick="mood('Okay')"><span class="face face-peach">⌢</span><b>Okay</b></button>
+      <button class="home-mood-btn" onclick="mood('Tired')"><span class="face face-blue">ᴗ</span><b>Tired</b></button>
+      <button class="home-mood-btn" onclick="mood('Stressed')"><span class="face face-salmon">≋</span><b>Stressed</b></button>
+      <button class="home-mood-btn" onclick="mood('Sad')"><span class="face face-sky">⌢</span><b>Sad</b></button>
+    </div>
+    <div class="mood-note"><span>✎</span><input id="mn" placeholder="Add a note (optional)..." /></div>
+  </div>
+
+  <div class="home-section-head">
+    <h2>TODAY'S KEY TO-DOS</h2><button onclick="show('tasks')">Edit</button>
+  </div>
+  <div class="home-todos card" id="homeTodos"></div>
+
+  <div class="home-dashboard">
+    <button class="dash-card dash-pink" onclick="show('tasks')">
+      <div class="dash-top"><span class="dash-icon">✓</span><b>TASKS</b></div>
+      <strong id="ht">5 / 7</strong><small>completed</small><div class="dash-progress"><i id="htbar"></i></div>
+    </button>
+    <button class="dash-card dash-green" onclick="show('nutrition')">
+      <div class="dash-top"><span class="dash-icon apple">●</span><b>NUTRITION</b></div>
+      <strong id="hc">1,420</strong><small>/ 2,000 cal</small><div class="dash-progress"><i id="hcbar"></i></div>
+    </button>
+    <button class="dash-card dash-yellow" onclick="show('goals')">
+      <div class="dash-top"><span class="dash-icon">◎</span><b>GOALS</b></div>
+      <strong id="hg">3</strong><small>on track</small><div class="dash-progress"><i id="hgbar"></i></div>
+    </button>
+    <button class="dash-card dash-blue" onclick="show('budget')">
+      <div class="dash-top"><span class="dash-icon">▣</span><b>BUDGET</b></div>
+      <strong id="hb">$327</strong><small>left this week</small><div class="dash-progress"><i id="hbbar"></i></div>
+    </button>
+  </div>
+
+  <div class="home-section-head mood-history-head">
+    <h2>MOOD TODAY</h2><button onclick="show('journal')">View all</button>
+  </div>
+  <div class="home-mood-history card" id="hmoods"></div>
+  <button class="home-fab" onclick="mood('Happy')">+</button>
+</section><section id="schedule" class="page"><h1>Schedule</h1><div class="days" id="days"></div><div class="card"><div class="row"><h2 id="sd"></h2><button class="btn" onclick="addSchedule()">+ Add</button></div><div id="timeline"></div></div></section>
 
 <section id="tasks" class="page"><h1>Daily Tasks</h1><div class="card"><div class="row"><b>Overall Progress</b><span id="tp"></span></div><div class="progress"><div id="tb"></div></div></div><div class="card"><div class="row"><h2>Daily Tasks</h2><button class="btn" onclick="addTask()">+ Add</button></div><div id="tasks"></div></div></section>
 
@@ -139,19 +244,49 @@ journal:['I’m excited for curling practice tonight!','Hanging out with my frie
 budget:[500,100,50,45,35,100,[['Aug 11–17',500,405],['Aug 4–10',500,421]]]};
 function save(){localStorage.setItem(K,JSON.stringify(d))}function show(id){document.querySelectorAll('.page').forEach(x=>x.classList.remove('active'));document.getElementById(id).classList.add('active');document.querySelectorAll('.nav button').forEach(x=>x.classList.toggle('active',x.dataset.p==id));render();scrollTo(0,0)}
 function esc(s){return String(s).replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]))}
-function render(){document.getElementById('date').textContent=new Date().toLocaleDateString(undefined,{weekday:'long',month:'long',day:'numeric',year:'numeric'});tasks();goals();meals();recipes();moods();journalRender();budgetRender();schedule();document.querySelector('[data-p=home]').classList.add('active')}
-function tasks(){let done=d.tasks.filter(x=>x[2]).length,p=Math.round(done/d.tasks.length*100);document.getElementById('tp').textContent=p+'%';document.getElementById('tb').style.width=p+'%';document.getElementById('ht').textContent=done+'/'+d.tasks.length;let h=d.tasks.map((x,i)=>`<div class="task"><span class="${x[2]?'done':''}" style="flex:1">${esc(x[0])}</span><input type="checkbox" ${x[2]?'checked':''} onchange="toggle(${i})"></div>`).join('');document.getElementById('tasks').innerHTML=h;document.getElementById('htasks').innerHTML=h.slice(0,2500)}
+function render(){document.getElementById('homeDate').textContent=new Date().toLocaleDateString(undefined,{weekday:'long',month:'long',day:'numeric'});document.getElementById('date').textContent=new Date().toLocaleDateString(undefined,{weekday:'long',month:'long',day:'numeric',year:'numeric'});tasks();goals();meals();recipes();moods();journalRender();budgetRender();schedule();document.querySelector('[data-p=home]').classList.add('active')}
+function tasks(){
+let done=d.tasks.filter(x=>x[2]).length,p=Math.round(done/d.tasks.length*100);
+document.getElementById('tp').textContent=p+'%';document.getElementById('tb').style.width=p+'%';
+document.getElementById('ht').textContent=done+' / '+d.tasks.length;
+document.getElementById('htbar').style.width=p+'%';
+let h=d.tasks.map((x,i)=>`<div class="task"><span class="${x[2]?'done':''}" style="flex:1">${esc(x[0])}</span><input type="checkbox" ${x[2]?'checked':''} onchange="toggle(${i})"></div>`).join('');
+document.getElementById('tasks').innerHTML=h;
+let incomplete=d.tasks.map((x,i)=>[x,i]).filter(z=>!z[0][2]).slice(0,2);
+let sched=d.schedule.slice(0,2);
+let todo='';
+sched.forEach(x=>todo+=`<div class="home-todo"><span class="todo-icon">✓</span><span class="todo-time">${esc(x[0])}</span><span class="todo-name">${esc(x[1])}</span></div>`);
+incomplete.forEach(z=>todo+=`<div class="home-todo"><span class="todo-dot ${z[0][1]=='high'?'dot-red':z[0][1]=='medium'?'dot-yellow':'dot-green'}"></span><span class="todo-name">${esc(z[0][0])}</span><span class="todo-circle"></span></div>`);
+document.getElementById('homeTodos').innerHTML=todo||'<div class="home-todo">Nothing scheduled yet.</div>';
+}
 function toggle(i){d.tasks[i][2]=d.tasks[i][2]?0:1;save();render()}function addTask(){let n=prompt('Task name');if(!n)return;d.tasks.push([n,(prompt('Priority','medium')||'medium').toLowerCase(),0]);save();render()}
-function goals(){document.getElementById('hg').textContent=d.goals.length;document.getElementById('goals').innerHTML=d.goals.map((g,i)=>`<div class="card"><div class="row"><h3>${esc(g[0])}</h3><button class="remove" onclick="delGoal(${i})">×</button></div><p>${esc(g[1])} · ${g[2]}%</p><div class="progress"><div style="width:${g[2]}%"></div></div><label>Update progress</label><input type="number" min="0" max="100" value="${g[2]}" onchange="d.goals[${i}][2]=+this.value;save();render()"></div>`).join('')}
+function goals(){
+let on=d.goals.filter(g=>g[2]>=60).length;
+document.getElementById('hg').textContent=on;
+document.getElementById('hgbar').style.width=Math.min(100,Math.round(on/Math.max(1,d.goals.length)*100))+'%';
+document.getElementById('goals').innerHTML=d.goals.map((g,i)=>`<div class="card"><div class="row"><h3>${esc(g[0])}</h3><button class="remove" onclick="delGoal(${i})">×</button></div><p>${esc(g[1])} · ${g[2]}%</p><div class="progress"><div style="width:${g[2]}%"></div></div><label>Update progress</label><input type="number" min="0" max="100" value="${g[2]}" onchange="d.goals[${i}][2]=+this.value;save();render()"></div>`).join('')}
 function goal(){let n=prompt('Goal name');if(!n)return;d.goals.push([n,prompt('Daily, Weekly, Monthly, or Yearly','Monthly')||'Monthly',0]);save();render()}function delGoal(i){d.goals.splice(i,1);save();render()}
-function meals(){let groups=['Breakfast','Lunch','Dinner','Snack','Sweet Treat'];document.getElementById('meals').innerHTML=groups.map(g=>{let a=d.meals.filter(x=>x[0]==g),c=a.reduce((s,x)=>s+x[2],0);return `<div class="card"><div class="row"><h3>${g}</h3><span>${c} cal</span></div>${a.map(x=>`<p>• ${esc(x[1])}<span style="float:right">${x[2]} cal</span></p>`).join('')||'<span>Nothing logged yet.</span>'}</div>`}).join('');let s=d.meals.reduce((a,x)=>{a[0]+=x[2];a[1]+=x[3];a[2]+=x[4];a[3]+=x[5];return a},[0,0,0,0]);['cal','pro','car','fat'].forEach((id,i)=>document.getElementById(id).textContent=s[i]+(i?'g':''));document.getElementById('hc').textContent=s[0]}
+function meals(){let groups=['Breakfast','Lunch','Dinner','Snack','Sweet Treat'];document.getElementById('meals').innerHTML=groups.map(g=>{let a=d.meals.filter(x=>x[0]==g),c=a.reduce((s,x)=>s+x[2],0);return `<div class="card"><div class="row"><h3>${g}</h3><span>${c} cal</span></div>${a.map(x=>`<p>• ${esc(x[1])}<span style="float:right">${x[2]} cal</span></p>`).join('')||'<span>Nothing logged yet.</span>'}</div>`}).join('');let s=d.meals.reduce((a,x)=>{a[0]+=x[2];a[1]+=x[3];a[2]+=x[4];a[3]+=x[5];return a},[0,0,0,0]);['cal','pro','car','fat'].forEach((id,i)=>document.getElementById(id).textContent=s[i]+(i?'g':''));document.getElementById('hc').textContent=s[0].toLocaleString();document.getElementById('hcbar').style.width=Math.min(100,Math.round(s[0]/2000*100))+'%'}
 function food(){let m=prompt('Meal section','Lunch'),n=prompt('Food');if(!m||!n)return;d.meals.push([m,n,+prompt('Calories','0')||0,+prompt('Protein g','0')||0,+prompt('Carbs g','0')||0,+prompt('Fat g','0')||0]);save();render()}
 function recipes(){document.getElementById('recipes').innerHTML=d.recipes.map((r,i)=>`<div class="recipe"><div class="row"><h3>${esc(r[0])}</h3><button class="remove" onclick="d.recipes.splice(${i},1);save();render()">×</button></div><p>${esc(r[1])} · Serves ${esc(r[2])} · ${esc(r[3])}</p><p><b>Ingredients</b><br>${esc(r[4])}</p><p><b>Directions</b><br>${esc(r[5])}</p></div>`).join('')}
 function recipe(){let n=prompt('Recipe name');if(!n)return;d.recipes.push([n,prompt('Section','Dinner')||'Dinner',prompt('Servings','2')||'2',prompt('Time','20 min')||'20 min',prompt('Ingredients')||'',prompt('Directions')||'']);save();render()}
-function moods(){let h=d.moods.map(x=>`<div class="task"><b style="width:90px">${esc(x[0])}</b><span class="muted">${esc(x[1])}</span><span>${esc(x[2])}</span></div>`).join('');document.getElementById('hmoods').innerHTML=h;document.getElementById('jm').innerHTML=h;document.getElementById('hm').textContent=d.moods[d.moods.length-1]?.[0]||'—'}
+function moodStyle(m){return ({Happy:'face-pink',Calm:'face-lav',Excited:'face-yellow',Okay:'face-peach',Tired:'face-blue',Stressed:'face-salmon',Sad:'face-sky'}[m]||'face-lav')}
+function moodGlyph(m){return ({Happy:'⌣',Calm:'⌢',Excited:'≧',Okay:'⌢',Tired:'ᴗ',Stressed:'≋',Sad:'⌢'}[m]||'⌣')}
+function moods(){
+let h=d.moods.map(x=>`<div class="task"><b style="width:90px">${esc(x[0])}</b><span class="muted">${esc(x[1])}</span><span>${esc(x[2])}</span></div>`).join('');
+document.getElementById('jm').innerHTML=h;
+let latest=d.moods.slice(-4);
+document.getElementById('hmoods').innerHTML=latest.map(x=>`<div class="home-history-item"><div class="history-time">${esc(x[1])}</div><div class="history-face ${moodStyle(x[0])}">${moodGlyph(x[0])}</div><div class="history-name">${esc(x[0])}</div></div>`).join('');
+}
 function mood(m){let n=document.getElementById('mn').value;d.moods.push([m,new Date().toLocaleTimeString([],{hour:'numeric',minute:'2-digit'}),n]);document.getElementById('mn').value='';save();render()}
 function journalRender(){document.getElementById('jd').textContent=new Date().toLocaleDateString(undefined,{weekday:'long',month:'long',day:'numeric'});document.getElementById('mor').value=d.journal[0];document.getElementById('nig').value=d.journal[1];document.getElementById('gen').value=d.journal[2]}function journal(){d.journal=[mor.value,nig.value,gen.value];save()}
-function budgetRender(){let b=d.budget;document.getElementById('inc').value=b[0];document.getElementById('bi').textContent='$'+b[0];let used=0;document.querySelectorAll('.a').forEach(x=>{x.value=b[['house','gas','eat','fun','save'].indexOf(x.dataset.k)+1]||0;used+=+x.value});document.getElementById('br').textContent='$'+(b[0]-used);document.getElementById('bh').innerHTML=b[6].map(x=>`<p>${x[0]} — Income $${x[1]} · Spent $${x[2]}</p>`).join('')}
+function budgetRender(){
+let b=d.budget;document.getElementById('inc').value=b[0];document.getElementById('bi').textContent='$'+b[0];
+let used=0;document.querySelectorAll('.a').forEach(x=>{x.value=b[['house','gas','eat','fun','save'].indexOf(x.dataset.k)+1]||0;used+=+x.value});
+let rem=b[0]-used;document.getElementById('br').textContent='$'+rem;
+document.getElementById('hb').textContent='$'+rem;
+document.getElementById('hbbar').style.width=Math.max(0,Math.min(100,Math.round(rem/Math.max(1,b[0])*100)))+'%';
+document.getElementById('bh').innerHTML=b[6].map(x=>`<p>${x[0]} — Income $${x[1]} · Spent $${x[2]}</p>`).join('')}
 function budget(){let b=d.budget;b[0]=+inc.value||0;document.querySelectorAll('.a').forEach((x,i)=>b[i+1]=+x.value||0);save();budgetRender()}
 function schedule(){let ds=document.getElementById('days');ds.innerHTML='';for(let i=0;i<7;i++){let x=new Date();x.setDate(x.getDate()+i);let b=document.createElement('button');b.className='day'+(!i?' sel':'');b.innerHTML=x.toLocaleDateString(undefined,{weekday:'short'})+'<br>'+x.getDate();b.onclick=()=>selectDay(x,b);ds.appendChild(b)}selectDay(new Date(),ds.firstChild)}
 function selectDay(x,b){document.querySelectorAll('.day').forEach(z=>z.classList.remove('sel'));b.classList.add('sel');document.getElementById('sd').textContent=x.toLocaleDateString(undefined,{weekday:'long',month:'long',day:'numeric'});document.getElementById('timeline').innerHTML=d.schedule.map(x=>`<div class="hour"><time>${x[0]}</time>${esc(x[1])}</div>`).join('')}
