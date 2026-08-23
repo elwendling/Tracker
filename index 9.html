@@ -1,0 +1,31 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<meta name="theme-color" content="#09152f">
+<title>Tracker</title>
+<style>
+*{box-sizing:border-box}body{margin:0;background:#09152f;color:#fff;font-family:"Times New Roman", Times, serif}.app{max-width:520px;margin:auto;padding:24px 16px 90px}h1{color:#f28aae}h2{font-family:"Times New Roman", Times, serif}.card{background:#111e3a;border:1px solid #35405d;border-radius:18px;padding:18px;margin:12px 0}.pink{color:#f28aae}.moods{display:grid;grid-template-columns:repeat(4,1fr);gap:8px}.mood,button{border:1px solid #3b4764;border-radius:12px;padding:10px;background:#172440;color:#fff}.face{font-size:28px;display:block}input,textarea{width:100%;padding:12px;margin:6px 0 12px;border-radius:10px;border:1px solid #3b4764;background:#0d1933;color:#fff}.bar{height:10px;background:#303b57;border-radius:9px}.bar i{display:block;height:100%;background:#f28aae;border-radius:9px}nav{position:fixed;bottom:0;left:0;right:0;background:#0b1733;border-top:1px solid #35405d;display:flex;justify-content:center}nav button{border:0;background:none;border-radius:0;font-size:11px;flex:1;max-width:75px}.active{color:#f28aae!important}</style>
+</head>
+<body>
+<div class="app"><h1>Tracker</h1><p id="date"></p><div id="content"></div></div>
+<nav>
+<button onclick="page('home')" id="home">⌂<br>Home</button><button onclick="page('schedule')" id="schedule">▣<br>Schedule</button><button onclick="page('tasks')" id="tasks">☑<br>Tasks</button><button onclick="page('budget')" id="budget">$<br>Budget</button><button onclick="page('journal')" id="journal">▤<br>Journal</button><button onclick="page('goals')" id="goals">◎<br>Goals</button><button onclick="page('nutrition')" id="nutrition">♡<br>Nutrition</button>
+</nav>
+<script>
+const K="trackerData";let d=JSON.parse(localStorage.getItem(K)||'{"moods":[],"tasks":[]}');const save=()=>localStorage.setItem(K,JSON.stringify(d));document.getElementById("date").textContent=new Date().toLocaleDateString(undefined,{weekday:"long",month:"long",day:"numeric",year:"numeric"});
+function page(p){document.querySelectorAll("nav button").forEach(x=>x.classList.remove("active"));document.getElementById(p).classList.add("active");let c=document.getElementById("content");
+if(p=="home")c.innerHTML=`<div class="card"><h3 class="pink">HOW ARE YOU FEELING?</h3><p>Tap a mood to log how you feel</p><div class="moods">${[["😊","Happy"],["😌","Calm"],["😁","Excited"],["😐","Okay"],["😴","Tired"],["😣","Stressed"],["😔","Sad"]].map(x=>`<button class="mood" onclick="addMood('${x[1]}')"><span class="face">${x[0]}</span>${x[1]}</button>`).join("")}</div></div><div class="card"><h3 class="pink">TODAY'S KEY TO-DOS</h3>${d.tasks.length?d.tasks.map((x,i)=>`<p><input type="checkbox" onchange="done(${i})" ${x.done?"checked":""}> ${x.name}</p>`).join(""):"No tasks yet."}</div><div class="card"><h3 class="pink">MOOD TODAY</h3>${d.moods.map(x=>`<p>${x.face} ${x.mood} — ${x.time}</p>`).join("")||"No moods logged yet."}</div>`;
+if(p=="schedule")c.innerHTML=`<div class="card"><h2>Schedule</h2><p><i>“Art enables us to find ourselves and lose ourselves at the same time.”</i></p>${Array.from({length:17},(_,i)=>`<p>${i+6}:00 <input placeholder="What are you doing?"></p>`).join("")}</div>`;
+if(p=="tasks")c.innerHTML=`<div class="card"><h2>Daily Tasks</h2><div class="bar"><i style="width:${d.tasks.length?d.tasks.filter(x=>x.done).length/d.tasks.length*100:0}%"></i></div><p>${d.tasks.filter(x=>x.done).length}/${d.tasks.length} completed</p>${d.tasks.map((x,i)=>`<p><input type="checkbox" onchange="done(${i})" ${x.done?"checked":""}> ${x.name} — ${x.priority}</p>`).join("")}<button onclick="addTask()">＋ Add Task</button></div>`;
+if(p=="budget")c.innerHTML=`<div class="card"><h2>Budget</h2><p>Current week</p>${["Paycheck / income","House / Rent","Gas","Eating Out","Fun","Savings"].map(x=>`<label>${x}</label><input type="number" placeholder="$0">`).join("")}<button>Save Week</button></div>`;
+if(p=="journal")c.innerHTML=`<div class="card"><h2>Journal</h2><h3 class="pink">☀ Morning</h3><p>What are you excited about for today?</p><textarea></textarea><h3 class="pink">☾ Night</h3><p>What was your favorite part of the day?</p><textarea></textarea><h3 class="pink">General Journal</h3><textarea></textarea><button>Save Journal</button></div>`;
+if(p=="goals")c.innerHTML=`<div class="card"><h2>Goals</h2><p>Daily · Weekly · Monthly · Yearly</p><p>Track progress and keep your history here.</p><button>＋ Add Goal</button></div>`;
+if(p=="nutrition")c.innerHTML=`<div class="card"><h2>Nutrition</h2><div class="bar"><i style="width:42%"></i></div><p>1,420 / 2,000 calories</p><p>Carbs · Protein · Fat</p></div>${["Breakfast","Lunch","Dinner","Snack","Sweet Treat"].map(x=>`<div class="card"><h3>${x}</h3><p>No food added</p><button>＋ Add Food</button></div>`).join("")}<div class="card"><h3 class="pink">📖 Cookbook</h3><p>Breakfast · Lunch · Dinner · Snack · Sweet Treat</p></div>`;
+}
+function addMood(m){let faces={"Happy":"😊","Calm":"😌","Excited":"😁","Okay":"😐","Tired":"😴","Stressed":"😣","Sad":"😔"};d.moods.push({mood:m,face:faces[m],time:new Date().toLocaleTimeString([],{hour:"numeric",minute:"2-digit"})});save();page("home")}
+function addTask(){let n=prompt("What do you need to do?");if(n){let p=prompt("Priority: high, medium, or low","medium");d.tasks.push({name:n,priority:p||"medium",done:false});save();page("tasks")}}
+function done(i){d.tasks[i].done=!d.tasks[i].done;save();page("tasks")}
+page("home");
+</script></body></html>
