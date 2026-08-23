@@ -1,305 +1,212 @@
-<!doctype html><html><head><meta name="viewport" content="width=device-width,initial-scale=1"><title>Tracker</title>
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<meta name="theme-color" content="#09152f">
+<title>Tracker</title>
 <style>
-*{box-sizing:border-box}
-html,body{margin:0;background:#0b1732;color:#f7f4f5;font-family:"Times New Roman",Times,serif}
-body{padding-bottom:82px}
-.app{max-width:760px;margin:auto;padding:18px 14px}
-h1{font-size:34px;line-height:1.05;margin:4px 0 8px;color:#f1a1bd;font-weight:700}
-h2{font-size:23px;margin:8px 0 14px}
-h3{font-size:19px;margin:0 0 7px}
-p{line-height:1.35}
-.page{display:none}.active{display:block}
-.card{
- background:linear-gradient(145deg,#162445,#121e3a);
- border:1px solid #354565;border-radius:18px;padding:15px;margin:11px 0;
- box-shadow:0 7px 22px rgba(0,0,0,.16)
-}
-.hero{
- background:linear-gradient(145deg,#142343,#101d39);
- border:1px solid #394969;border-radius:20px;padding:17px;margin-bottom:12px
-}
-.hero h2{color:#f1a1bd;margin:0 0 5px;font-size:28px}
-.muted{color:#b8bfd0}
-.quote{
- background:#1b2948;border:1px solid #344463;border-radius:14px;
- padding:13px 14px;color:#e7d9df;font-size:17px;margin:12px 0
-}
-.grid{display:grid;grid-template-columns:1fr 1fr;gap:9px}
-.stat{
- background:#101c36;border:1px solid #33415f;border-radius:14px;
- padding:11px;text-align:left;min-height:67px
-}
-.stat b{display:block;font-size:24px;color:#fff;margin-bottom:2px}
-.row{display:flex;justify-content:space-between;align-items:center;gap:9px}
-.btn{
- border:0;border-radius:12px;padding:9px 14px;background:#ec8fb1;color:#201627;
- font-family:inherit;font-weight:bold;font-size:16px
-}
-.btn2{background:#263653;color:#fff;border:1px solid #41516f}
-input,textarea,select{
- width:100%;background:#101c36;color:#fff;border:1px solid #465574;border-radius:11px;
- padding:10px;font:16px "Times New Roman",Times,serif;outline:none
-}
-textarea{min-height:92px;resize:vertical}
-label{display:block;margin:8px 0 4px;color:#e5e4e8}
-.progress{height:11px;background:#303b55;border-radius:20px;overflow:hidden}
-.progress div{height:100%;background:#ef8eae;border-radius:20px}
-.task{
- display:flex;gap:10px;align-items:center;border-bottom:1px solid #2d3a57;
- padding:11px 2px
-}
-.task:last-child{border-bottom:0}
-.task input{width:20px;height:20px;accent-color:#ed8fb0}
-.done{text-decoration:line-through;color:#929caf}
-.pill{padding:3px 8px;border-radius:14px;font-size:13px}
-.high{background:#86495f}.medium{background:#846d38}.low{background:#3f684b}
-.remove{border:0;background:none;color:#f1a7bd;font:22px "Times New Roman",serif}
-.days{display:flex;gap:7px;overflow:auto;padding-bottom:3px}
-.day{
- background:#192746;color:#fff;border:1px solid #3b4967;border-radius:12px;
- padding:8px 12px;font:16px "Times New Roman",serif
-}
-.day.sel{background:#eb8eaf;color:#171326;border-color:#eb8eaf}
-.timeline{border-left:2px solid #e48cab;padding-left:13px;margin-top:6px}
-.hour{padding:10px 0;border-bottom:1px solid #293650}
-.hour time{display:inline-block;width:78px;color:#aeb7c9}
-.section-title{color:#f0a1bd;font-size:15px;letter-spacing:.4px;text-transform:uppercase}
-.recipe{
- background:#182645;border:1px solid #42516e;border-radius:15px;padding:14px;margin-top:10px
-}
-.recipe h3{color:#f2a3bd}
-.nav{
- position:fixed;bottom:0;left:0;right:0;background:#0a1530;
- border-top:1px solid #394663;display:flex;z-index:5
-}
-.nav button{
- flex:1;min-width:70px;background:none;border:0;color:#bfc6d4;
- padding:8px 3px 10px;font:14px "Times New Roman",Times,serif
-}
-.nav button.active{color:#f09ab8}
-.icon{display:block;font-size:19px;height:22px}
-.fab{
- position:fixed;right:20px;bottom:91px;width:58px;height:58px;border-radius:50%;
- border:0;background:#ef8fb1;color:#fff;font:35px "Times New Roman",serif;
- box-shadow:0 6px 18px rgba(0,0,0,.3);z-index:4
-}
-.mood-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:8px}
-.mood-btn{
- border:0;background:none;color:#e9e6eb;font-family:inherit;font-size:14px;
- padding:5px 2px
-}
-.mood-face{
- width:48px;height:48px;border-radius:50%;margin:0 auto 5px;
- display:flex;align-items:center;justify-content:center;font-size:25px
-}
-.pink{background:#ed8faf}.lav{background:#b89bdf}.yellow{background:#f0c55d}
-.blue{background:#8db5df}.peach{background:#f1a18f}.green{background:#a7d68c}
-.list-row{
- display:flex;align-items:center;gap:10px;padding:10px 2px;border-bottom:1px solid #2d3a57
-}
-.list-row:last-child{border-bottom:0}
-.icon-circle{
- width:34px;height:34px;border-radius:50%;display:flex;align-items:center;
- justify-content:center;background:#243452;color:#f2a0bb;flex:none
-}
-@media(max-width:500px){
- .app{padding:15px 12px}
- .mood-grid{grid-template-columns:repeat(4,1fr)}
- h1{font-size:32px}
-}
-
-/* HOME PAGE — reference-mockup styling */
-#home{padding:2px 0 22px}
-.home-head{display:flex;justify-content:space-between;align-items:flex-start;padding:6px 8px 10px}
-.home-head h1{font-size:31px;margin:0;color:#f0a0bd;font-weight:400}
-.home-head .heart{font-size:27px}
-.home-date{font-size:17px;color:#f0eef1;margin-top:5px}
-.bell{background:none;border:0;color:#f0a0bd;font-size:29px;font-family:inherit;padding:2px 7px}
-.home-mood.card{padding:16px 14px 15px;margin-top:3px}
-.mood-title{color:#f09dbb;font-size:17px;font-weight:bold;letter-spacing:.3px}
-.mood-sub{font-size:15px;color:#c8c9d0;margin:7px 0 13px}
-.home-mood-grid{display:grid;grid-template-columns:repeat(4,1fr);row-gap:14px;column-gap:3px}
-.home-mood-btn{background:none;border:0;color:#eee;font-family:inherit;font-size:14px;padding:0 0 2px}
-.home-mood-btn b{font-weight:400;display:block;margin-top:2px}
-.face{width:48px;height:48px;border-radius:50%;display:flex;align-items:center;justify-content:center;margin:auto;font-size:30px;color:#252236;font-weight:bold;border:1px solid rgba(255,255,255,.06)}
-.face-pink{background:#ed8fb0}.face-lav{background:#bca2df}.face-yellow{background:#f4c557}.face-peach{background:#f0d0a8}
-.face-blue{background:#93bce8}.face-salmon{background:#f0a08d}.face-sky{background:#a9c7ec}
-.mood-note{height:48px;border:1px solid #344360;border-radius:12px;background:#111d39;display:flex;align-items:center;gap:8px;padding:0 11px;margin-top:12px}
-.mood-note span{color:#9ba6ba;font-size:17px}
-.mood-note input{border:0;background:transparent;padding:7px 0;height:42px}
-.home-section-head{display:flex;align-items:center;justify-content:space-between;padding:8px 12px 5px}
-.home-section-head h2{font-size:17px;margin:0;color:#f4f1f2;font-weight:400}
-.home-section-head button{border:0;background:none;color:#f09dbb;font:16px "Times New Roman",serif}
-.home-todos{padding:5px 12px;margin:0 0 8px}
-.home-todo{height:39px;display:flex;align-items:center;gap:10px;border-bottom:1px solid #303c57}
-.home-todo:last-child{border-bottom:0}
-.todo-time{width:70px;color:#e9e7ea}
-.todo-icon{width:23px;height:23px;border:2px solid #92a0b5;border-radius:6px;display:flex;align-items:center;justify-content:center;font-size:12px;color:#92a0b5}
-.todo-dot{width:23px;height:23px;border-radius:50%;display:inline-block}
-.todo-name{flex:1;color:#f0eef0}
-.todo-circle{width:22px;height:22px;border:2px solid #9aa5b8;border-radius:50%}
-.home-dashboard{display:grid;grid-template-columns:1fr 1fr;gap:9px;padding:2px 0 8px}
-.dash-card{border:1px solid #33415f;border-radius:15px;background:#111d39;text-align:left;padding:12px 13px;color:#fff;font-family:inherit;min-height:116px}
-.dash-top{display:flex;align-items:center;gap:7px;font-size:14px;margin-bottom:7px}
-.dash-icon{width:26px;height:26px;border-radius:6px;background:#ef8faf;color:#281b2a;display:inline-flex;align-items:center;justify-content:center;font-size:18px}
-.apple{background:#a7d68d}.dash-yellow .dash-icon{background:#f0c65d}.dash-blue .dash-icon{background:#8fb8e5}
-.dash-card strong{font-size:28px;font-weight:400;display:inline-block}
-.dash-card small{display:block;font-size:14px;color:#f0eef1;margin-top:-1px}
-.dash-progress{height:7px;background:#303a53;border-radius:10px;margin-top:9px;overflow:hidden}
-.dash-progress i{display:block;height:100%;border-radius:10px;background:#ef8faf;width:70%}
-.dash-green .dash-progress i{background:#a7d68d}.dash-yellow .dash-progress i{background:#f0c65d}.dash-blue .dash-progress i{background:#8fb8e5}
-.mood-history-head{margin-top:2px}
-.home-mood-history{padding:13px 7px;margin:0;display:grid;grid-template-columns:repeat(4,1fr);overflow:hidden}
-.home-history-item{text-align:center;border-right:1px solid #34415c;min-width:0}
-.home-history-item:last-child{border-right:0}
-.history-time{font-size:13px;color:#e8e5e8;margin-bottom:6px}
-.history-face{width:45px;height:45px;border-radius:50%;margin:auto;display:flex;align-items:center;justify-content:center;font-size:24px;color:#252236}
-.history-name{font-size:13px;margin-top:5px}
-.home-fab{display:block;width:60px;height:60px;border-radius:50%;border:0;background:#ee8faf;color:#fff;font:38px "Times New Roman",serif;margin:14px auto 3px;box-shadow:0 7px 20px rgba(0,0,0,.28)}
-@media(max-width:430px){
- .home-head h1{font-size:29px}
- .home-mood-grid{row-gap:12px}
- .face{width:46px;height:46px}
- .home-todo{height:37px}
- .home-mood-history{padding-left:3px;padding-right:3px}
-}
-</style></head><body><div class="app"><h1>Tracker</h1><div id="date"></div>
-
-<section id="home" class="page active">
-  <div class="home-head">
-    <div>
-      <h1>Good morning, Ella! <span class="heart">♥</span></h1>
-      <div class="home-date" id="homeDate"></div>
-    </div>
-    <button class="bell" onclick="alert('No new notifications')">♧</button>
-  </div>
-
-  <div class="home-mood card">
-    <div class="section-title mood-title">HOW ARE YOU FEELING?</div>
-    <div class="mood-sub">Tap a mood to log how you feel</div>
-    <div class="home-mood-grid">
-      <button class="home-mood-btn" onclick="mood('Happy')"><span class="face face-pink">⌣</span><b>Happy</b></button>
-      <button class="home-mood-btn" onclick="mood('Calm')"><span class="face face-lav">⌢</span><b>Calm</b></button>
-      <button class="home-mood-btn" onclick="mood('Excited')"><span class="face face-yellow">≧</span><b>Excited</b></button>
-      <button class="home-mood-btn" onclick="mood('Okay')"><span class="face face-peach">⌢</span><b>Okay</b></button>
-      <button class="home-mood-btn" onclick="mood('Tired')"><span class="face face-blue">ᴗ</span><b>Tired</b></button>
-      <button class="home-mood-btn" onclick="mood('Stressed')"><span class="face face-salmon">≋</span><b>Stressed</b></button>
-      <button class="home-mood-btn" onclick="mood('Sad')"><span class="face face-sky">⌢</span><b>Sad</b></button>
-    </div>
-    <div class="mood-note"><span>✎</span><input id="mn" placeholder="Add a note (optional)..." /></div>
-  </div>
-
-  <div class="home-section-head">
-    <h2>TODAY'S KEY TO-DOS</h2><button onclick="show('tasks')">Edit</button>
-  </div>
-  <div class="home-todos card" id="homeTodos"></div>
-
-  <div class="home-dashboard">
-    <button class="dash-card dash-pink" onclick="show('tasks')">
-      <div class="dash-top"><span class="dash-icon">✓</span><b>TASKS</b></div>
-      <strong id="ht">5 / 7</strong><small>completed</small><div class="dash-progress"><i id="htbar"></i></div>
-    </button>
-    <button class="dash-card dash-green" onclick="show('nutrition')">
-      <div class="dash-top"><span class="dash-icon apple">●</span><b>NUTRITION</b></div>
-      <strong id="hc">1,420</strong><small>/ 2,000 cal</small><div class="dash-progress"><i id="hcbar"></i></div>
-    </button>
-    <button class="dash-card dash-yellow" onclick="show('goals')">
-      <div class="dash-top"><span class="dash-icon">◎</span><b>GOALS</b></div>
-      <strong id="hg">3</strong><small>on track</small><div class="dash-progress"><i id="hgbar"></i></div>
-    </button>
-    <button class="dash-card dash-blue" onclick="show('budget')">
-      <div class="dash-top"><span class="dash-icon">▣</span><b>BUDGET</b></div>
-      <strong id="hb">$327</strong><small>left this week</small><div class="dash-progress"><i id="hbbar"></i></div>
-    </button>
-  </div>
-
-  <div class="home-section-head mood-history-head">
-    <h2>MOOD TODAY</h2><button onclick="show('journal')">View all</button>
-  </div>
-  <div class="home-mood-history card" id="hmoods"></div>
-  <button class="home-fab" onclick="mood('Happy')">+</button>
-</section><section id="schedule" class="page"><h1>Schedule</h1><div class="days" id="days"></div><div class="card"><div class="row"><h2 id="sd"></h2><button class="btn" onclick="addSchedule()">+ Add</button></div><div id="timeline"></div></div></section>
-
-<section id="tasks" class="page"><h1>Daily Tasks</h1><div class="card"><div class="row"><b>Overall Progress</b><span id="tp"></span></div><div class="progress"><div id="tb"></div></div></div><div class="card"><div class="row"><h2>Daily Tasks</h2><button class="btn" onclick="addTask()">+ Add</button></div><div id="tasks"></div></div></section>
-
-<section id="budget" class="page"><h1>Budget</h1><div class="card"><h2>This Week</h2><div class="grid"><div class="stat"><b id="bi"></b>income</div><div class="stat"><b id="br"></b>remaining</div></div><label>Income</label><input id="inc" type="number" oninput="budget()"><div class="grid"><div><label>House/Rent</label><input class="a" data-k="house" type="number" oninput="budget()"></div><div><label>Gas</label><input class="a" data-k="gas" type="number" oninput="budget()"></div><div><label>Eating Out</label><input class="a" data-k="eat" type="number" oninput="budget()"></div><div><label>Fun</label><input class="a" data-k="fun" type="number" oninput="budget()"></div><div><label>Savings</label><input class="a" data-k="save" type="number" oninput="budget()"></div></div></div><div class="card"><h2>Past Weeks</h2><div id="bh"></div></div></section>
-
-<section id="journal" class="page"><h1>Journal</h1><div class="card"><h2 id="jd"></h2><label>Morning — What are you excited about for today?</label><textarea id="mor" oninput="journal()"></textarea><label>Night — What was your favorite part of the day?</label><textarea id="nig" oninput="journal()"></textarea></div><div class="card"><h2>Moods</h2><div id="jm"></div></div><div class="card"><h2>General Journal</h2><textarea id="gen" oninput="journal()"></textarea></div></section>
-
-<section id="goals" class="page"><h1>Goals</h1><div class="card"><div class="row"><h2>Daily · Weekly · Monthly · Yearly</h2><button class="btn" onclick="goal()">+ Add</button></div><div id="goals"></div></div></section>
-
-<section id="nutrition" class="page"><h1>Nutrition</h1><div class="card"><div class="row"><h2>Daily Meal Plan</h2><button class="btn" onclick="food()">+ Add Food</button></div><div class="grid"><div class="stat"><b id="cal"></b>calories</div><div class="stat"><b id="pro"></b>protein</div><div class="stat"><b id="car"></b>carbs</div><div class="stat"><b id="fat"></b>fat</div></div><div id="meals"></div></div><div class="card"><div class="row"><h2>Cookbook</h2><button class="btn" onclick="recipe()">+ Recipe</button></div><p>Breakfast · Lunch · Dinner · Snack · Sweet Treat</p><div id="recipes"></div></div></section></div>
-
-<nav class="nav"><button data-p="home" onclick="show('home')"><span class="icon">⌂</span>Home</button><button data-p="schedule" onclick="show('schedule')"><span class="icon">□</span>Schedule</button><button data-p="tasks" onclick="show('tasks')"><span class="icon">☑</span>Tasks</button><button data-p="budget" onclick="show('budget')"><span class="icon">$</span>Budget</button><button data-p="journal" onclick="show('journal')"><span class="icon">▤</span>Journal</button><button data-p="goals" onclick="show('goals')"><span class="icon">◎</span>Goals</button><button data-p="nutrition" onclick="show('nutrition')"><span class="icon">♡</span>Nutrition</button></nav>
-
+*{box-sizing:border-box}body{margin:0;background:#09152f;color:#fff;font-family:"Times New Roman", Times, serif}.app{max-width:520px;margin:auto;padding:24px 16px 90px}h1{color:#f28aae}h2{font-family:"Times New Roman", Times, serif}.card{background:#111e3a;border:1px solid #35405d;border-radius:18px;padding:18px;margin:12px 0}.pink{color:#f28aae}.moods{display:grid;grid-template-columns:repeat(4,1fr);gap:8px}.mood,button{border:1px solid #3b4764;border-radius:12px;padding:10px;background:#172440;color:#fff}.face{font-size:28px;display:block}input,textarea{width:100%;padding:12px;margin:6px 0 12px;border-radius:10px;border:1px solid #3b4764;background:#0d1933;color:#fff}.bar{height:10px;background:#303b57;border-radius:9px}.bar i{display:block;height:100%;background:#f28aae;border-radius:9px}nav{position:fixed;bottom:0;left:0;right:0;background:#0b1733;border-top:1px solid #35405d;display:flex;justify-content:center}nav button{border:0;background:none;border-radius:0;font-size:11px;flex:1;max-width:75px}.active{color:#f28aae!important}</style>
+</head>
+<body>
+<div class="app"><h1>Tracker</h1><p id="date"></p><div id="content"></div></div>
+<nav>
+<button onclick="page('home')" id="home">⌂<br>Home</button><button onclick="page('schedule')" id="schedule">▣<br>Schedule</button><button onclick="page('tasks')" id="tasks">☑<br>Tasks</button><button onclick="page('budget')" id="budget">$<br>Budget</button><button onclick="page('journal')" id="journal">▤<br>Journal</button><button onclick="page('goals')" id="goals">◎<br>Goals</button><button onclick="page('nutrition')" id="nutrition">♡<br>Nutrition</button>
+</nav>
 <script>
-const K='tracker_v3';let d=JSON.parse(localStorage.getItem(K)||'null')||{
-tasks:[['Make bed','low',1],['Morning vitamins','medium',1],['Drink water','low',1],['Read 10 pages','low',1],['Gym','high',1],['Laundry','medium',0],['Finish assignment','high',0]],
-goals:[['Workout 12 times','Monthly',67],['Read 2 books','Monthly',50],['Save $500','Monthly',65],['Drink Water Daily','Daily',65]],
-meals:[['Breakfast','Oatmeal',280,8,52,6],['Breakfast','Banana',105,1,27,0],['Lunch','Turkey Sandwich',420,30,40,14],['Dinner','Chicken Pasta',525,38,62,12],['Snack','Greek Yogurt',150,15,12,3],['Sweet Treat','Dark Chocolate Square',120,2,10,8]],
-recipes:[['Banana Pancakes','Breakfast','2','20 min','1 banana; 2 eggs; 1/2 cup whole wheat flour','Mash, mix, and cook until golden.'],['Turkey Avocado Toast','Lunch','1','10 min','Toast; turkey; avocado; seasoning','Toast bread, add avocado and turkey.'],['Chicken Pasta','Dinner','4','30 min','Chicken; pasta; vegetables; sauce','Cook pasta and chicken, combine.'],['Berry Yogurt Bowl','Snack','1','5 min','Greek yogurt; berries; granola','Layer ingredients in a bowl.'],['Chocolate Strawberry Bites','Sweet Treat','4','15 min','Strawberries; dark chocolate','Dip berries and chill.']],
-moods:[['Calm','9:15 AM','Starting slow.'],['Happy','12:47 PM','Lunch with friends.'],['Stressed','4:32 PM','Busy afternoon.'],['Excited','8:16 PM','Looking forward to tonight.']],
-schedule:[['7:00 AM','Morning Routine'],['8:00 AM','Workout'],['10:00 AM','Work'],['12:00 PM','Lunch Break'],['1:00 PM','Work'],['6:00 PM','Curling Practice'],['8:00 PM','Free Time'],['10:00 PM','Bedtime']],
-journal:['I’m excited for curling practice tonight!','Hanging out with my friends after practice.','Today was a good day overall.'],
-budget:[500,100,50,45,35,100,[['Aug 11–17',500,405],['Aug 4–10',500,421]]]};
-function save(){localStorage.setItem(K,JSON.stringify(d))}function show(id){document.querySelectorAll('.page').forEach(x=>x.classList.remove('active'));document.getElementById(id).classList.add('active');document.querySelectorAll('.nav button').forEach(x=>x.classList.toggle('active',x.dataset.p==id));render();scrollTo(0,0)}
-function esc(s){return String(s).replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]))}
-function render(){document.getElementById('homeDate').textContent=new Date().toLocaleDateString(undefined,{weekday:'long',month:'long',day:'numeric'});document.getElementById('date').textContent=new Date().toLocaleDateString(undefined,{weekday:'long',month:'long',day:'numeric',year:'numeric'});tasks();goals();meals();recipes();moods();journalRender();budgetRender();schedule();document.querySelector('[data-p=home]').classList.add('active')}
-function tasks(){
-let done=d.tasks.filter(x=>x[2]).length,p=Math.round(done/d.tasks.length*100);
-document.getElementById('tp').textContent=p+'%';document.getElementById('tb').style.width=p+'%';
-document.getElementById('ht').textContent=done+' / '+d.tasks.length;
-document.getElementById('htbar').style.width=p+'%';
-let h=d.tasks.map((x,i)=>`<div class="task"><span class="${x[2]?'done':''}" style="flex:1">${esc(x[0])}</span><input type="checkbox" ${x[2]?'checked':''} onchange="toggle(${i})"></div>`).join('');
-document.getElementById('tasks').innerHTML=h;
-let incomplete=d.tasks.map((x,i)=>[x,i]).filter(z=>!z[0][2]).slice(0,2);
-let sched=d.schedule.slice(0,2);
-let todo='';
-sched.forEach(x=>todo+=`<div class="home-todo"><span class="todo-icon">✓</span><span class="todo-time">${esc(x[0])}</span><span class="todo-name">${esc(x[1])}</span></div>`);
-incomplete.forEach(z=>todo+=`<div class="home-todo"><span class="todo-dot ${z[0][1]=='high'?'dot-red':z[0][1]=='medium'?'dot-yellow':'dot-green'}"></span><span class="todo-name">${esc(z[0][0])}</span><span class="todo-circle"></span></div>`);
-document.getElementById('homeTodos').innerHTML=todo||'<div class="home-todo">Nothing scheduled yet.</div>';
+const K="trackerData";let d=JSON.parse(localStorage.getItem(K)||'{"moods":[],"tasks":[]}');const save=()=>localStorage.setItem(K,JSON.stringify(d));document.getElementById("date").textContent=new Date().toLocaleDateString(undefined,{weekday:"long",month:"long",day:"numeric",year:"numeric"});
+function page(p){document.querySelectorAll("nav button").forEach(x=>x.classList.remove("active"));document.getElementById(p).classList.add("active");let c=document.getElementById("content");
+if(p=="home")c.innerHTML=`
+<style>
+.home-header{display:flex;align-items:center;justify-content:space-between;margin-bottom:4px}
+.home-title{margin:0;color:#f28aae;font-size:29px;letter-spacing:-.3px}
+.bell{width:42px;height:42px;border:1px solid #35405d;border-radius:14px;background:#111e3a;color:#f28aae;display:flex;align-items:center;justify-content:center;font-size:23px}
+.home-date{margin:0 0 14px;color:#e9edf7;font-size:16px}
+.home-card{background:#0e1b36;border:1px solid #34405d;border-radius:18px;padding:16px;margin:12px 0}
+.section-title{color:#f28aae;font-size:18px;margin:0 0 5px}
+.section-subtitle{color:#c8cfdd;font-size:13px;margin:0 0 12px}
+.mood-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:12px 7px}
+.mood-btn{border:0!important;background:transparent!important;padding:0!important;color:#fff!important}
+.face-wrap{width:54px;height:54px;border-radius:50%;margin:0 auto 5px;display:flex;align-items:center;justify-content:center}
+.face-svg{width:54px;height:54px}
+.mood-label{font-size:13px;line-height:1.1}
+.note-input{margin-top:12px!important;margin-bottom:0!important;height:42px}
+.todo-head{display:flex;justify-content:space-between;align-items:center;margin-bottom:8px}
+.edit-btn{background:none;border:0;color:#f28aae;font-family:inherit;font-size:14px;padding:0}
+.todo-list{border:1px solid #34405d;border-radius:13px;overflow:hidden}
+.todo-row{display:flex;align-items:center;gap:10px;padding:9px 11px;border-bottom:1px solid #34405d;min-height:39px}
+.todo-row:last-child{border-bottom:0}
+.todo-check{appearance:none;-webkit-appearance:none;width:21px;height:21px;border:1.7px solid #aeb7c8;border-radius:6px;background:transparent;margin:0;flex:none}
+.todo-check:checked{background:#f28aae;border-color:#f28aae;position:relative}
+.todo-check:checked:after{content:"✓";position:absolute;color:#10203b;font-size:16px;font-weight:bold;left:3px;top:-1px}
+.todo-time{width:58px;color:#e9edf7;font-size:13px}
+.todo-name{font-size:14px;color:#f5f7fb}
+.todo-dot{width:10px;height:10px;border-radius:50%;flex:none}
+.dot-pink{background:#f27e82}.dot-yellow{background:#f4c84d}
+.quick-grid{display:grid;grid-template-columns:1fr 1fr;gap:10px}
+.quick-card{background:#0e1b36;border:1px solid #34405d;border-radius:16px;padding:12px;min-height:91px}
+.quick-top{display:flex;align-items:center;gap:7px;font-size:13px;font-weight:bold}
+.quick-icon{font-size:20px}
+.quick-value{font-size:22px;margin-top:6px}
+.quick-sub{font-size:12px;color:#d0d5e0}
+.quick-bar{height:7px;background:#303b57;border-radius:8px;margin-top:9px;overflow:hidden}
+.quick-bar i{display:block;height:100%;border-radius:8px}
+.pinkbar{background:#f28aae}.greenbar{background:#9bd66e}.yellowbar{background:#f1ca64}.bluebar{background:#86b8ec}
+.mood-history{display:grid;grid-template-columns:repeat(4,1fr);gap:0}
+.history-item{text-align:center;border-right:1px solid #34405d;padding:0 4px}
+.history-item:last-child{border-right:0}
+.history-time{font-size:11px;color:#d8dce6;margin-bottom:6px}
+.history-face{margin:auto;width:38px;height:38px}
+.history-name{font-size:11px;margin-top:4px}
+.float-plus{display:flex;align-items:center;justify-content:center;width:62px;height:62px;border-radius:50%;background:#f28aae;color:white;font-size:38px;line-height:1;border:0;margin:12px auto 0;box-shadow:0 5px 16px rgba(242,138,174,.25)}
+</style>
+
+<div class="home-header">
+  <h1 class="home-title">${greeting()}, Ella!</h1>
+  <button class="bell" aria-label="Notifications" onclick="alert('No new notifications')">♧</button>
+</div>
+<p class="home-date">${new Date().toLocaleDateString(undefined,{weekday:"long",month:"long",day:"numeric"})}</p>
+
+<div class="home-card">
+  <h3 class="section-title">HOW ARE YOU FEELING?</h3>
+  <p class="section-subtitle">Tap a mood to log how you feel</p>
+  <div class="mood-grid">
+    ${moodFaceButton("Happy","happy")}
+    ${moodFaceButton("Calm","calm")}
+    ${moodFaceButton("Excited","excited")}
+    ${moodFaceButton("Okay","okay")}
+    ${moodFaceButton("Tired","tired")}
+    ${moodFaceButton("Stressed","stressed")}
+    ${moodFaceButton("Sad","sad")}
+  </div>
+  <input class="note-input" id="moodNote" placeholder="✎  Add a note (optional)...">
+</div>
+
+<div class="home-card">
+  <div class="todo-head">
+    <h3 class="section-title" style="color:#fff;margin:0">TODAY'S KEY TO-DOS</h3>
+    <button class="edit-btn" onclick="addTask()">Edit</button>
+  </div>
+  <div class="todo-list">
+    ${homeTodos()}
+  </div>
+</div>
+
+<div class="quick-grid">
+  <div class="quick-card">
+    <div class="quick-top"><span class="quick-icon">✓</span> TASKS</div>
+    <div class="quick-value">${d.tasks.filter(x=>x.done).length} / ${d.tasks.length || 7}</div>
+    <div class="quick-sub">completed</div>
+    <div class="quick-bar"><i class="pinkbar" style="width:${d.tasks.length?Math.round(d.tasks.filter(x=>x.done).length/d.tasks.length*100):71}%"></i></div>
+  </div>
+  <div class="quick-card">
+    <div class="quick-top"><span class="quick-icon">🍎</span> NUTRITION</div>
+    <div class="quick-value">1,420</div>
+    <div class="quick-sub">/ 2,000 cal</div>
+    <div class="quick-bar"><i class="greenbar" style="width:71%"></i></div>
+  </div>
+  <div class="quick-card">
+    <div class="quick-top"><span class="quick-icon">◎</span> GOALS</div>
+    <div class="quick-value">3</div>
+    <div class="quick-sub">on track</div>
+    <div class="quick-bar"><i class="yellowbar" style="width:68%"></i></div>
+  </div>
+  <div class="quick-card">
+    <div class="quick-top"><span class="quick-icon">▣</span> BUDGET</div>
+    <div class="quick-value">$327</div>
+    <div class="quick-sub">left this week</div>
+    <div class="quick-bar"><i class="bluebar" style="width:66%"></i></div>
+  </div>
+</div>
+
+<div class="home-card">
+  <div class="todo-head">
+    <h3 class="section-title" style="color:#fff;margin:0">MOOD TODAY</h3>
+    <button class="edit-btn" onclick="showMoodHistory()">View all</button>
+  </div>
+  <div class="mood-history">
+    ${historyItems()}
+  </div>
+</div>
+
+<button class="float-plus" onclick="addMoodFromPlus()" aria-label="Add mood">+</button>
+`;
+
+function greeting(){
+  const h=new Date().getHours();
+  if(h<12) return "Good morning";
+  if(h<17) return "Good afternoon";
+  if(h<21) return "Good evening";
+  return "Good night";
 }
-function toggle(i){d.tasks[i][2]=d.tasks[i][2]?0:1;save();render()}function addTask(){let n=prompt('Task name');if(!n)return;d.tasks.push([n,(prompt('Priority','medium')||'medium').toLowerCase(),0]);save();render()}
-function goals(){
-let on=d.goals.filter(g=>g[2]>=60).length;
-document.getElementById('hg').textContent=on;
-document.getElementById('hgbar').style.width=Math.min(100,Math.round(on/Math.max(1,d.goals.length)*100))+'%';
-document.getElementById('goals').innerHTML=d.goals.map((g,i)=>`<div class="card"><div class="row"><h3>${esc(g[0])}</h3><button class="remove" onclick="delGoal(${i})">×</button></div><p>${esc(g[1])} · ${g[2]}%</p><div class="progress"><div style="width:${g[2]}%"></div></div><label>Update progress</label><input type="number" min="0" max="100" value="${g[2]}" onchange="d.goals[${i}][2]=+this.value;save();render()"></div>`).join('')}
-function goal(){let n=prompt('Goal name');if(!n)return;d.goals.push([n,prompt('Daily, Weekly, Monthly, or Yearly','Monthly')||'Monthly',0]);save();render()}function delGoal(i){d.goals.splice(i,1);save();render()}
-function meals(){let groups=['Breakfast','Lunch','Dinner','Snack','Sweet Treat'];document.getElementById('meals').innerHTML=groups.map(g=>{let a=d.meals.filter(x=>x[0]==g),c=a.reduce((s,x)=>s+x[2],0);return `<div class="card"><div class="row"><h3>${g}</h3><span>${c} cal</span></div>${a.map(x=>`<p>• ${esc(x[1])}<span style="float:right">${x[2]} cal</span></p>`).join('')||'<span>Nothing logged yet.</span>'}</div>`}).join('');let s=d.meals.reduce((a,x)=>{a[0]+=x[2];a[1]+=x[3];a[2]+=x[4];a[3]+=x[5];return a},[0,0,0,0]);['cal','pro','car','fat'].forEach((id,i)=>document.getElementById(id).textContent=s[i]+(i?'g':''));document.getElementById('hc').textContent=s[0].toLocaleString();document.getElementById('hcbar').style.width=Math.min(100,Math.round(s[0]/2000*100))+'%'}
-function food(){let m=prompt('Meal section','Lunch'),n=prompt('Food');if(!m||!n)return;d.meals.push([m,n,+prompt('Calories','0')||0,+prompt('Protein g','0')||0,+prompt('Carbs g','0')||0,+prompt('Fat g','0')||0]);save();render()}
-function recipes(){document.getElementById('recipes').innerHTML=d.recipes.map((r,i)=>`<div class="recipe"><div class="row"><h3>${esc(r[0])}</h3><button class="remove" onclick="d.recipes.splice(${i},1);save();render()">×</button></div><p>${esc(r[1])} · Serves ${esc(r[2])} · ${esc(r[3])}</p><p><b>Ingredients</b><br>${esc(r[4])}</p><p><b>Directions</b><br>${esc(r[5])}</p></div>`).join('')}
-function recipe(){let n=prompt('Recipe name');if(!n)return;d.recipes.push([n,prompt('Section','Dinner')||'Dinner',prompt('Servings','2')||'2',prompt('Time','20 min')||'20 min',prompt('Ingredients')||'',prompt('Directions')||'']);save();render()}
-function moodStyle(m){return ({Happy:'face-pink',Calm:'face-lav',Excited:'face-yellow',Okay:'face-peach',Tired:'face-blue',Stressed:'face-salmon',Sad:'face-sky'}[m]||'face-lav')}
-function moodGlyph(m){return ({Happy:'⌣',Calm:'⌢',Excited:'≧',Okay:'⌢',Tired:'ᴗ',Stressed:'≋',Sad:'⌢'}[m]||'⌣')}
-function moods(){
-let h=d.moods.map(x=>`<div class="task"><b style="width:90px">${esc(x[0])}</b><span class="muted">${esc(x[1])}</span><span>${esc(x[2])}</span></div>`).join('');
-document.getElementById('jm').innerHTML=h;
-let latest=d.moods.slice(-4);
-document.getElementById('hmoods').innerHTML=latest.map(x=>`<div class="home-history-item"><div class="history-time">${esc(x[1])}</div><div class="history-face ${moodStyle(x[0])}">${moodGlyph(x[0])}</div><div class="history-name">${esc(x[0])}</div></div>`).join('');
+function faceSVG(type){
+  const fills={happy:"#f28aae",calm:"#b9a1e5",excited:"#f4c94f",okay:"#f1d4a7",tired:"#9bbce8",stressed:"#f19b8e",sad:"#9bbce8"};
+  const f=fills[type]||"#f28aae";
+  const eyes = {
+    happy:`<path d="M17 23 q4-5 8 0 M29 23 q4-5 8 0" stroke="#17233d" stroke-width="2.8" fill="none" stroke-linecap="round"/>`,
+    calm:`<path d="M17 24 q4 4 8 0 M29 24 q4 4 8 0" stroke="#17233d" stroke-width="2.8" fill="none" stroke-linecap="round"/>`,
+    excited:`<path d="M16 21 l6 3 l-5 4 M40 21 l-6 3 l5 4" stroke="#17233d" stroke-width="2.8" fill="none" stroke-linecap="round" stroke-linejoin="round"/>`,
+    okay:`<circle cx="21" cy="24" r="2.2" fill="#17233d"/><circle cx="35" cy="24" r="2.2" fill="#17233d"/>`,
+    tired:`<path d="M17 25 q4 4 8 0 M29 25 q4 4 8 0" stroke="#17233d" stroke-width="2.8" fill="none" stroke-linecap="round"/><text x="35" y="18" font-size="8" fill="#17233d">z</text><text x="40" y="13" font-size="6" fill="#17233d">z</text>`,
+    stressed:`<path d="M17 21 l7 4 M24 21 l-7 4 M32 21 l7 4 M39 21 l-7 4" stroke="#17233d" stroke-width="2.4" stroke-linecap="round"/><path d="M20 34 q8-7 16 0" stroke="#17233d" stroke-width="2.8" fill="none" stroke-linecap="round"/>`,
+    sad:`<circle cx="21" cy="24" r="2.2" fill="#17233d"/><circle cx="35" cy="24" r="2.2" fill="#17233d"/><path d="M20 35 q8-7 16 0" stroke="#17233d" stroke-width="2.8" fill="none" stroke-linecap="round"/>`
+  };
+  const mouths = {
+    happy:`<path d="M18 31 q7 8 16 0" stroke="#17233d" stroke-width="2.8" fill="none" stroke-linecap="round"/>`,
+    calm:`<path d="M21 31 q5 4 10 0" stroke="#17233d" stroke-width="2.8" fill="none" stroke-linecap="round"/>`,
+    excited:`<path d="M18 30 q9 7 18 0 q-1 9-9 9 q-8 0-9-9" fill="#17233d"/>`,
+    okay:`<path d="M19 34 q9-2 18 0" stroke="#17233d" stroke-width="2.8" fill="none" stroke-linecap="round"/>`,
+    tired:`<path d="M20 33 q7 3 14 0" stroke="#17233d" stroke-width="2.8" fill="none" stroke-linecap="round"/>`,
+    stressed:`<path d="M20 34 q8-6 16 0" stroke="#17233d" stroke-width="2.8" fill="none" stroke-linecap="round"/>`,
+    sad:`<path d="M20 37 q8-8 16 0" stroke="#17233d" stroke-width="2.8" fill="none" stroke-linecap="round"/>`
+  };
+  return `<svg class="face-svg" viewBox="0 0 56 56" aria-hidden="true"><circle cx="28" cy="28" r="26" fill="${f}"/>${eyes[type]}${mouths[type]}</svg>`;
 }
-function mood(m){let n=document.getElementById('mn').value;d.moods.push([m,new Date().toLocaleTimeString([],{hour:'numeric',minute:'2-digit'}),n]);document.getElementById('mn').value='';save();render()}
-function journalRender(){document.getElementById('jd').textContent=new Date().toLocaleDateString(undefined,{weekday:'long',month:'long',day:'numeric'});document.getElementById('mor').value=d.journal[0];document.getElementById('nig').value=d.journal[1];document.getElementById('gen').value=d.journal[2]}function journal(){d.journal=[mor.value,nig.value,gen.value];save()}
-function budgetRender(){
-let b=d.budget;document.getElementById('inc').value=b[0];document.getElementById('bi').textContent='$'+b[0];
-let used=0;document.querySelectorAll('.a').forEach(x=>{x.value=b[['house','gas','eat','fun','save'].indexOf(x.dataset.k)+1]||0;used+=+x.value});
-let rem=b[0]-used;document.getElementById('br').textContent='$'+rem;
-document.getElementById('hb').textContent='$'+rem;
-document.getElementById('hbbar').style.width=Math.max(0,Math.min(100,Math.round(rem/Math.max(1,b[0])*100)))+'%';
-document.getElementById('bh').innerHTML=b[6].map(x=>`<p>${x[0]} — Income $${x[1]} · Spent $${x[2]}</p>`).join('')}
-function budget(){let b=d.budget;b[0]=+inc.value||0;document.querySelectorAll('.a').forEach((x,i)=>b[i+1]=+x.value||0);save();budgetRender()}
-function schedule(){let ds=document.getElementById('days');ds.innerHTML='';for(let i=0;i<7;i++){let x=new Date();x.setDate(x.getDate()+i);let b=document.createElement('button');b.className='day'+(!i?' sel':'');b.innerHTML=x.toLocaleDateString(undefined,{weekday:'short'})+'<br>'+x.getDate();b.onclick=()=>selectDay(x,b);ds.appendChild(b)}selectDay(new Date(),ds.firstChild)}
-function selectDay(x,b){document.querySelectorAll('.day').forEach(z=>z.classList.remove('sel'));b.classList.add('sel');document.getElementById('sd').textContent=x.toLocaleDateString(undefined,{weekday:'long',month:'long',day:'numeric'});document.getElementById('timeline').innerHTML=d.schedule.map(x=>`<div class="hour"><time>${x[0]}</time>${esc(x[1])}</div>`).join('')}
-function addSchedule(){let t=prompt('Time','3:00 PM'),n=prompt('Activity');if(t&&n){d.schedule.push([t,n]);save();render()}}
-function quickAdd(){
-      let active=document.querySelector('.page.active')?.id;
-      if(active==='tasks') addTask();
-      else if(active==='goals') goal();
-      else if(active==='nutrition') food();
-      else if(active==='schedule') addSchedule();
-      else if(active==='home') mood('Happy');
-      else if(active==='budget') document.getElementById('inc')?.focus();
-      else if(active==='journal') document.getElementById('gen')?.focus();
-    }
-    render();show('home');
+function moodFaceButton(name,type){
+  return `<button class="mood-btn" onclick="addMood('${name}')"><span class="face-wrap">${faceSVG(type)}</span><span class="mood-label">${name}</span></button>`;
+}
+function homeTodos(){
+  const list=d.tasks.length?d.tasks.slice(0,4):[
+    {name:"Work",time:"2:00 PM",done:false,kind:"event"},
+    {name:"Gym",time:"6:00 PM",done:false,kind:"event"},
+    {name:"Finish assignment",done:false,kind:"pink"},
+    {name:"Laundry",done:false,kind:"yellow"}
+  ];
+  return list.map((x,i)=>{
+    if(x.kind==="event") return `<label class="todo-row"><input class="todo-check" type="checkbox" onchange="toggleHomeTodo(${i})" ${x.done?"checked":""}><span class="todo-time">${x.time}</span><span class="todo-name">${x.name}</span></label>`;
+    return `<label class="todo-row"><span class="todo-dot ${x.kind==="yellow"?"dot-yellow":"dot-pink"}"></span><input class="todo-check" type="checkbox" onchange="toggleHomeTodo(${i})" ${x.done?"checked":""}><span class="todo-name">${x.name}</span></label>`;
+  }).join("");
+}
+function toggleHomeTodo(i){
+  if(d.tasks.length){d.tasks[i].done=!d.tasks[i].done;save();page("home")}
+}
+function historyItems(){
+  const recent=d.moods.slice(-4);
+  const fallback=[
+    {mood:"Calm",time:"9:15 AM",type:"calm"},
+    {mood:"Happy",time:"12:47 PM",type:"happy"},
+    {mood:"Stressed",time:"4:32 PM",type:"stressed"},
+    {mood:"Excited",time:"8:16 PM",type:"excited"}
+  ];
+  const items=recent.length?recent.map(x=>({mood:x.mood,time:x.time,type:x.type||x.mood.toLowerCase()})):fallback;
+  return items.map(x=>`<div class="history-item"><div class="history-time">${x.time}</div><div class="history-face">${faceSVG(x.type)}</div><div class="history-name">${x.mood}</div></div>`).join("");
+}
+function addMoodFromPlus(){
+  const names=["Happy","Calm","Excited","Okay","Tired","Stressed","Sad"];
+  const m=prompt("How are you feeling?\n\n"+names.join(" • "));
+  if(names.includes(m)) addMood(m);
+}
+function showMoodHistory(){alert(d.moods.length?d.moods.map(x=>`${x.time} — ${x.mood}`).join("\n"):"No moods logged yet.");}
+;
+if(p=="schedule")c.innerHTML=`<div class="card"><h2>Schedule</h2><p><i>“Art enables us to find ourselves and lose ourselves at the same time.”</i></p>${Array.from({length:17},(_,i)=>`<p>${i+6}:00 <input placeholder="What are you doing?"></p>`).join("")}</div>`;
+if(p=="tasks")c.innerHTML=`<div class="card"><h2>Daily Tasks</h2><div class="bar"><i style="width:${d.tasks.length?d.tasks.filter(x=>x.done).length/d.tasks.length*100:0}%"></i></div><p>${d.tasks.filter(x=>x.done).length}/${d.tasks.length} completed</p>${d.tasks.map((x,i)=>`<p><input type="checkbox" onchange="done(${i})" ${x.done?"checked":""}> ${x.name} — ${x.priority}</p>`).join("")}<button onclick="addTask()">＋ Add Task</button></div>`;
+if(p=="budget")c.innerHTML=`<div class="card"><h2>Budget</h2><p>Current week</p>${["Paycheck / income","House / Rent","Gas","Eating Out","Fun","Savings"].map(x=>`<label>${x}</label><input type="number" placeholder="$0">`).join("")}<button>Save Week</button></div>`;
+if(p=="journal")c.innerHTML=`<div class="card"><h2>Journal</h2><h3 class="pink">☀ Morning</h3><p>What are you excited about for today?</p><textarea></textarea><h3 class="pink">☾ Night</h3><p>What was your favorite part of the day?</p><textarea></textarea><h3 class="pink">General Journal</h3><textarea></textarea><button>Save Journal</button></div>`;
+if(p=="goals")c.innerHTML=`<div class="card"><h2>Goals</h2><p>Daily · Weekly · Monthly · Yearly</p><p>Track progress and keep your history here.</p><button>＋ Add Goal</button></div>`;
+if(p=="nutrition")c.innerHTML=`<div class="card"><h2>Nutrition</h2><div class="bar"><i style="width:42%"></i></div><p>1,420 / 2,000 calories</p><p>Carbs · Protein · Fat</p></div>${["Breakfast","Lunch","Dinner","Snack","Sweet Treat"].map(x=>`<div class="card"><h3>${x}</h3><p>No food added</p><button>＋ Add Food</button></div>`).join("")}<div class="card"><h3 class="pink">📖 Cookbook</h3><p>Breakfast · Lunch · Dinner · Snack · Sweet Treat</p></div>`;
+}
+function addMood(m){let types={"Happy":"happy","Calm":"calm","Excited":"excited","Okay":"okay","Tired":"tired","Stressed":"stressed","Sad":"sad"};let note=document.getElementById("moodNote")?.value||"";d.moods.push({mood:m,type:types[m],note,time:new Date().toLocaleTimeString([],{hour:"numeric",minute:"2-digit"}),date:new Date().toLocaleDateString()});save();page("home")}
+function addTask(){let n=prompt("What do you need to do?");if(n){let p=prompt("Priority: high, medium, or low","medium");d.tasks.push({name:n,priority:p||"medium",done:false});save();page("tasks")}}
+function done(i){d.tasks[i].done=!d.tasks[i].done;save();page("tasks")}
+page("home");
 </script></body></html>
